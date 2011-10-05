@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll"/>
+
+    <!-- Included properties -->
+    <Import Project="Servertype.props" />
+    
+    <!-- Included targets -->
+    <Import Project="CopyFiles.targets" />
+    <Import Project="Compress.targets" />
+    <Import Project="Hardening.targets" />
+    
+    <PropertyGroup>
+        <DeployDependsOn>
+            $(DeployDependsOn);
+            PrepareForBuild;
+            Build;
+            BeforeDeploy;
+            CoreDeploy;
+            AfterDeploy
+        </DeployDependsOn>
+    </PropertyGroup>
+    
+    <Target Name="Deploy" DependsOnTargets="$(DeployDependsOn)"/>
+
+    <Target Name="PrepareForBuild" />
+
+    <Target Name="Build">
+        <MSBuild Projects="$(SolutionFile)" Properties="Configuration=$(Configuration);Environment=$(Environment)" />
+    </Target>
+
+    <Target Name="BeforeDeploy"> 
+        <!-- Clean-up deployment target directory before deploying new files to it. -->
+        <RemoveDir Directories="$(DeployDir)\$(Environment)" ContinueOnError="true" />
+    </Target>
+
+    <Target Name="CoreDeploy">
+        <CallTarget Targets="DoCopyFiles" />
+
+    </Target>
+
+    <Target Name="AfterDeploy">
+        <!-- <CallTarget Targets="DoHardening" Condition="$(Servertype) == 'delivery'"/> -->
+        <!-- <CallTarget Targets="Compress" Condition="$(Servertype) == 'delivery'"/> -->
+    </Target>
+
+</Project>

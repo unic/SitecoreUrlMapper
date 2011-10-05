@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll"/>
+
+    <Target Name="Compress">
+        <ItemGroup>
+            <CssToMinify Include="..\styles\**\*.css" Exclude="..\styles\**\*.min.css" />
+            <JsToMinify Include="..\scripts\**\*.js" Exclude="..\scripts\**\*.min.js" />
+        </ItemGroup>
+        
+        <MSBuild Projects="$(MSBuildProjectFile)"
+                 Properties="InputFile=%(CssToMinify.Fullpath);OutputFile=$(DeployDir)\$(Environment)\styles\%(RecursiveDir)%(Filename)%(Extension)"
+                 Targets="DoCompress" />
+        <MSBuild Projects="$(MSBuildProjectFile)"
+             Properties="InputFile=%(JsToMinify.Fullpath);OutputFile=$(DeployDir)\$(Environment)\scripts\%(RecursiveDir)%(Filename)%(Extension)"
+             Targets="DoCompress" />
+    </Target>
+        
+    <!-- Recurively called compression Task (called via Compress)-->    
+    <Target Name="DoCompress">
+        <Exec Command="java -jar ..\..\Misc\Compressor\yuicompressor-2.4.6.jar -o $(OutputFile) $(InputFile)" />
+    </Target>
+    
+</Project>
