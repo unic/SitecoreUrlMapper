@@ -61,7 +61,9 @@
   <ItemGroup>
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx" />
-    <Content Include="sitecore modules\Shell\Unic\UrlMapper\ImportWizard.xml" />
+    <Content Include="sitecore modules\Shell\Unic\UrlMapper\ImportWizard.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,10 +85,12 @@
     <Compile Include="sitecore modules\Shell\Unic\UrlMapper\OpenWizard.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\Unic.Modules.UrlMapper.config" />
+    <Content Include="App_Config\Include\Unic.Modules.UrlMapper.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unic.Modules.UrlMapper\Unic.SitecoreCMS.Modules.UrlMapper.csproj">
+    <ProjectReference Include="..\Modules.UrlMapper\Unic.SitecoreCMS.Modules.UrlMapper.csproj">
       <Project>{7AE1E528-1371-4633-B9BD-FEE35232ECFD}</Project>
       <Name>Unic.SitecoreCMS.Modules.UrlMapper</Name>
     </ProjectReference>

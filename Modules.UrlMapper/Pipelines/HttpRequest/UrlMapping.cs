@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Sitecore.Pipelines.HttpRequest;
 using System.Net;
 using System.Web;
-using Unic.SitecoreCMS.Framework.Definitions;
 using Sitecore.Data.Items;
 using Sitecore.Configuration;
 
@@ -55,11 +51,11 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
             string redirectItemTemplateId = Settings.GetSetting("UrlMapper.ItemTemplateId");
             string redirectRootId = Settings.GetSetting("UrlMapper.RootFolder");
 
-            string oldUrl = Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl());
-            Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: OldUrl " + oldUrl + ".", this);
+            string searchURL = Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl());
+            Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
            
-            string oldUrlEncode = HttpUtility.UrlPathEncode(Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl()));
-            string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId + "' and (@#Old Url# = '" + oldUrl + "' or @#Old Url# = '" + oldUrlEncode + "')]";
+            string searchUrlEncode = HttpUtility.UrlPathEncode(Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl()));
+            string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId + "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
 
             // HACK: replacement for Sitecore.Context.Database.SelectSingleItem(query); as the context database
             // never switched to web on delivery environments.
@@ -68,11 +64,11 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
 
             if (redirect != null)
             {
-                string newUrl = redirect["New Url"];
+                string redirectURL = redirect["Redirect URL"];
                 System.Web.HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                System.Web.HttpContext.Current.Response.RedirectPermanent(newUrl);
+                System.Web.HttpContext.Current.Response.RedirectPermanent(redirectURL);
 
-                Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + oldUrl + " to " + newUrl + ".", this);
+                Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + searchURL + " to " + redirectURL + ".", this);
             }
 
         }

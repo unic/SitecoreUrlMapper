@@ -6,6 +6,7 @@ using Sitecore.Web.UI.Pages;
 using Sitecore.Web.UI.Sheer;
 using Sitecore.Diagnostics;
 using System.Collections.Specialized;
+using Sitecore.Configuration;
 
 namespace Unic.SitecoreCMS.Modules.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
 {
@@ -104,13 +105,20 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Website.sitecore_modules.Shell.Unic
                     ErrorMessage = "The file is not a CSV file.";
                     break;
                 case "3":
-                    ErrorMessage = "The file content is not valid. Please specify the first row as header with columns 'oldurl' and 'newurl'.";
+                    string headerLine = Settings.GetSetting("UrlMapper.CsvHeaders");
+                    ErrorMessage = "The file content is not valid. Please specify the first row as header with columns: " + headerLine + ".";
                     break;
                 case "4":
                     ErrorMessage = "No valid template configuration available. Please contact your system administrator.";
                     break;
                 case "5":
-                    ErrorMessage = "Permission denied. Please contact your system administrator.";
+                    ErrorMessage = "Permission denied to create Redirects. Please contact your system administrator.";
+                    break;
+                case "6":
+                    ErrorMessage = "Permission denied to delete Redirects. Please contact your system administrator.";
+                    break;
+                case "7":
+                    ErrorMessage = "The Header Line of the CSV is not configured correctly .";
                     break;
                 default:
                     ErrorMessage = "Unexpected error. Please contact your system administrator.";

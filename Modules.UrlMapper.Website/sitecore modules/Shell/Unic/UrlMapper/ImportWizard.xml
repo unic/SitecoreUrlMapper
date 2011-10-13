@@ -31,7 +31,7 @@
             <Literal Text="Import redirects from the csv file."/>
           </li>
         </ul>
-        <Literal Text="The csv must have 2 columns separated by semicolon. The first row is for header informations and must contain 'oldurl' in the first column and 'newurl' in the second column." />
+        <Literal Text="The csv must have 3 columns separated by semicolon. The Header must contain the same Values which are Configured (If you are not shure how this should be ask your Systemadministrator)." />
       </WizardFormFirstPage>
 
       <WizardFormPage ID="Configuration" Header="Configure the import" Text="Select a file to import and do some configurations." Icon="Applications/32x32/Export1.png">
@@ -50,11 +50,28 @@
           </Border>
 
           <Listbox ID="ItemsPerFolder" Name="ItemsPerFolder" Width="100%">
+            <ListItem Value="50">50</ListItem>
             <ListItem Value="100">100</ListItem>
+            <ListItem Value="150">150</ListItem>
             <ListItem Value="200" Selected="True">200</ListItem>
+            <ListItem Value="300">300</ListItem>
+            <ListItem Value="400">400</ListItem>
             <ListItem Value="500">500</ListItem>
-            <ListItem Value="1000">1000</ListItem>
           </Listbox>
+
+          <Space Height="16"/>
+          
+          <Border Padding="0 0 2 0">
+            <input id="DeleteImport" name="DeleteImport" type="checkbox" value="1" />
+            <Literal Text="Delete all Imports"/>
+          </Border>
+
+          <Space Height="16"/>
+
+          <Border Padding="0 0 2 0">
+            <input id="AutoPublish" name="AutoPublish" type="checkbox" value="1" />
+            <Literal Text="Publish after Import"/>
+          </Border>
 
         </WizardFormIndent>
       </WizardFormPage>
@@ -74,7 +91,7 @@
           <Space Height="16"/>
 
           <Border Align="center" GridPanel.Align="center" GridPanel.Style="font-weight:bold">
-            <Literal Text="Importing..."/>
+            <Literal Text="In Progress........"/>
           </Border>
         </GridPanel>
       </WizardFormPage>
