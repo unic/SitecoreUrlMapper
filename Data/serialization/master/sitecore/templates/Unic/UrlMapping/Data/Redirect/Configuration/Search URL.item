@@ -2,9 +2,9 @@
 version: 1
 id: {0A085C1F-2944-426F-8ED4-63DB91DEA88C}
 database: master
-path: /sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Old Url
+path: /sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Search URL
 parent: {A75ED3AF-C21E-4EA4-849D-A4056B88AB96}
-name: Old Url
+name: Search URL
 master: {00000000-0000-0000-0000-000000000000}
 template: {455A3E98-A627-4B40-8035-E683A0331AC7}
 templatekey: Template field
@@ -61,7 +61,7 @@ content-length: 3
 ----version----
 language: en
 version: 1
-revision: c57181f9-09f6-482b-b5d6-0f01a62b4e11
+revision: a5d0362b-ecba-43dd-acdf-ab075d22396d
 
 ----field----
 field: {52807595-0F8F-4B20-8D2A-CB71D28C6103}
@@ -90,18 +90,18 @@ name: __Revision
 key: __revision
 content-length: 36
 
-c57181f9-09f6-482b-b5d6-0f01a62b4e11
+a5d0362b-ecba-43dd-acdf-ab075d22396d
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
 content-length: 34
 
-20110526T141055:634420158555579498
+20111011T140832:634539389129295738
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by
 key: __updated by
-content-length: 25
+content-length: 14
 
-sitecore\kevin.brechbuehl
+sitecore\admin

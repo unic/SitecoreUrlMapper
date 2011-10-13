@@ -2,27 +2,13 @@
 version: 1
 id: {DB81BF90-D612-4F86-9C4F-D3BADE0530EB}
 database: core
-path: /sitecore/content/Documents and settings/All users/Start menu/Right/Custom Tools/Redirect Importer
-parent: {D47E20F6-8161-4FA0-9A16-49BC4C2C9285}
+path: /sitecore/content/Documents and settings/All users/Start menu/Programs/Redirect Importer
+parent: {68F18608-4430-407E-8D34-0B79000DFE51}
 name: Redirect Importer
 master: {A28303B4-F2D5-42E6-A3C6-79F1D06F40D4}
 template: {F58958D2-555B-4F56-946C-589E8866880C}
 templatekey: Start menu action
 
-----field----
-field: {06D5295C-ED2F-4A54-9BF2-26228D113318}
-name: __Icon
-key: __icon
-content-length: 27
-
-business/32x32/pin_blue.png
-----field----
-field: {BA3F86A2-4A1C-4D78-B63D-91C2779C1B5E}
-name: __Sortorder
-key: __sortorder
-content-length: 3
-
-675
 ----field----
 field: {9EFED9BB-2EC8-498A-91B9-655091224E4D}
 name: Icon
@@ -37,6 +23,20 @@ key: message
 content-length: 21
 
 urlmapping:openwizard
+----field----
+field: {06D5295C-ED2F-4A54-9BF2-26228D113318}
+name: __Icon
+key: __icon
+content-length: 27
+
+business/32x32/pin_blue.png
+----field----
+field: {BA3F86A2-4A1C-4D78-B63D-91C2779C1B5E}
+name: __Sortorder
+key: __sortorder
+content-length: 4
+
+1150
 ----field----
 field: {DEC8D2D5-E3CF-48B6-A653-8E69E2716641}
 name: __Security
@@ -108,22 +108,22 @@ sitecore\admin
 ----version----
 language: de-DE
 version: 1
-revision: 06485530-1c05-4fbc-8ec6-51680dd7c3e0
+revision: edff6501-8995-4b79-a152-2d868d743073
 
 ----field----
 field: {326CD362-CB1C-4E81-B5F2-5EFA940351F7}
 name: Display name
 key: display name
-content-length: 16
+content-length: 18
 
-Site publizieren
+Redirects Importer
 ----field----
 field: {E7D3348B-8323-42BA-BC9C-48E1F4E994DC}
 name: Tool tip
 key: tool tip
-content-length: 18
+content-length: 21
 
-Inhalt publizieren
+Redirects importieren
 ----field----
 field: {52807595-0F8F-4B20-8D2A-CB71D28C6103}
 name: __Owner
@@ -151,14 +151,14 @@ name: __Revision
 key: __revision
 content-length: 36
 
-06485530-1c05-4fbc-8ec6-51680dd7c3e0
+edff6501-8995-4b79-a152-2d868d743073
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
 content-length: 34
 
-20101221T161344:634285448248764030
+20111011T182510:634539543104601719
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by
@@ -169,7 +169,7 @@ sitecore\admin
 ----version----
 language: en
 version: 1
-revision: 5767c3bd-f279-458b-83ca-bb1b81295cda
+revision: 8451b1b6-6929-4b11-9e5e-ee51f17f0fc3
 
 ----field----
 field: {326CD362-CB1C-4E81-B5F2-5EFA940351F7}
@@ -193,6 +193,13 @@ content-length: 15
 
 20060322T132239
 ----field----
+field: {52807595-0F8F-4B20-8D2A-CB71D28C6103}
+name: __Owner
+key: __owner
+content-length: 18
+
+sitecore\Anonymous
+----field----
 field: {25BED78C-4957-4165-998A-CA1B52F67497}
 name: __Created
 key: __created
@@ -212,21 +219,21 @@ name: __Revision
 key: __revision
 content-length: 36
 
-5767c3bd-f279-458b-83ca-bb1b81295cda
+8451b1b6-6929-4b11-9e5e-ee51f17f0fc3
 ----field----
 field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
 name: __Updated
 key: __updated
 content-length: 34
 
-20110608T110559:634431279590927201
+20111013T100411:634540970519115109
 ----field----
 field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
 name: __Updated by
 key: __updated by
-content-length: 25
+content-length: 14
 
-sitecore\kevin.brechbuehl
+sitecore\admin
 ----version----
 language: ja-JP
 version: 1
