@@ -1,4 +1,5 @@
 * text=auto !eol
+Data/serialization/core/sitecore/content/Documents[!!-~]and[!!-~]settings/All[!!-~]users/Start[!!-~]menu/Programs/Redirect[!!-~]Importer.item -text
 Modules.UrlMapper.Solution/Unic.SitecoreCMS.Modules.UrlMapper.sln -text
 Modules.UrlMapper.Website/App_Config/Include/Unic.Modules.UrlMapper.config -text
 Modules.UrlMapper.Website/Properties/AssemblyInfo.cs -text
