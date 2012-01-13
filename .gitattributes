@@ -1,5 +1,16 @@
 * text=auto !eol
 Data/serialization/core/sitecore/content/Documents[!!-~]and[!!-~]settings/All[!!-~]users/Start[!!-~]menu/Programs/Redirect[!!-~]Importer.item -text
+Data/serialization/master/sitecore/templates/Unic.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Common.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Common/Redirect[!!-~]Folder.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Common/Redirect[!!-~]Folder/__Standard[!!-~]Values.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Redirect[!!-~]URL.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Search[!!-~]URL.item -text
+Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/__Standard[!!-~]Values.item -text
 Modules.UrlMapper.Solution/Unic.SitecoreCMS.Modules.UrlMapper.sln -text
 Modules.UrlMapper.Website/App_Config/Include/Unic.Modules.UrlMapper.config -text
 Modules.UrlMapper.Website/Properties/AssemblyInfo.cs -text
