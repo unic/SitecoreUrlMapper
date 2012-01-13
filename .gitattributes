@@ -42,4 +42,6 @@ Modules.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/ImportWizar
 Modules.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/OpenWizard.cs -text
 Modules.UrlMapper/Pipelines/HttpRequest/UrlMapping.cs -text
 Modules.UrlMapper/Properties/AssemblyInfo.cs -text
+Modules.UrlMapper/Security/Filter/BaseFilter.cs -text
+Modules.UrlMapper/Security/Filter/FastQueryFilter.cs -text
 Modules.UrlMapper/Unic.SitecoreCMS.Modules.UrlMapper.csproj -text

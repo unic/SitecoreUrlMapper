@@ -4,6 +4,8 @@ using System.Net;
 using System.Web;
 using Sitecore.Data.Items;
 using Sitecore.Configuration;
+using Sitecore.Web;
+using Unic.SitecoreCMS.Modules.UrlMapper.Security.Filter;
 
 namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
 {
@@ -51,10 +53,16 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
             string redirectItemTemplateId = Settings.GetSetting("UrlMapper.ItemTemplateId");
             string redirectRootId = Settings.GetSetting("UrlMapper.RootFolder");
 
+            FastQueryFilter filter = new FastQueryFilter();
+
             string searchURL = Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl());
+            searchURL = filter.Filter(searchURL);
+            
             Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
            
             string searchUrlEncode = HttpUtility.UrlPathEncode(Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl()));
+            searchUrlEncode = filter.Filter(searchUrlEncode);
+
             string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId + "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
 
             // HACK: replacement for Sitecore.Context.Database.SelectSingleItem(query); as the context database
