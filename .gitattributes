@@ -11,6 +11,7 @@ Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Confi
 Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Redirect[!!-~]URL.item -text
 Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Search[!!-~]URL.item -text
 Data/serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/__Standard[!!-~]Values.item -text
+Data/serialization/security/sitecore/Roles/Redirect[!!-~]Importer.role -text
 Modules.UrlMapper.Solution/Unic.SitecoreCMS.Modules.UrlMapper.sln -text
 Modules.UrlMapper.Website/App_Config/Include/Unic.Modules.UrlMapper.config -text
 Modules.UrlMapper.Website/Properties/AssemblyInfo.cs -text

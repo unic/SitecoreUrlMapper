@@ -1,0 +1,6 @@
+----role----
+name: sitecore\Redirect Importer
+
+----role-in-role----
+rolename: sitecore\JURA Editor
+
