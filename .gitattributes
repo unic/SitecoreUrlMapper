@@ -1,4 +1,6 @@
 * text=auto !eol
+Data/packages/UrlMapper.xml -text
+Data/packages/UrlMapper.zip -text
 Data/serialization/core/sitecore/content/Documents[!!-~]and[!!-~]settings/All[!!-~]users/Start[!!-~]menu/Programs/Redirect[!!-~]Importer.item -text
 Data/serialization/master/sitecore/templates/Unic.item -text
 Data/serialization/master/sitecore/templates/Unic/UrlMapping.item -text
