@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Sitecore.Pipelines.HttpRequest;
 using System.Net;
 using System.Web;
@@ -56,12 +57,14 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
             FastQueryFilter filter = new FastQueryFilter();
 
             string searchURL = Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl());
+            searchURL = new Uri(searchURL).ToString();
             searchURL = filter.Filter(searchURL);
             
             Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
            
             string searchUrlEncode = HttpUtility.UrlPathEncode(Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl()));
             searchUrlEncode = filter.Filter(searchUrlEncode);
+            searchUrlEncode = new Uri(searchUrlEncode).ToString();
 
             string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId + "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
 

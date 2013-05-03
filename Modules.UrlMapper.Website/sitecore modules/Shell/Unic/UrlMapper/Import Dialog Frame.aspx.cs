@@ -330,7 +330,7 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Website.sitecore_modules.Shell.Unic
                 foreach (Language language in languages)
                 {
                     PublishOptions options = new PublishOptions(ContentDatabase, targetDatabase, PublishMode.Smart, language, DateTime.Now);
-                    options.RootItem = ImportRoot;
+                    options.RootItem = ImportRoot.Parent;
                     options.Deep = true;
 
                     Publisher publisher = new Publisher(options);
