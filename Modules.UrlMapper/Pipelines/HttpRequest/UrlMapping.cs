@@ -1,15 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Sitecore.Pipelines.HttpRequest;
-using System.Net;
-using System.Web;
-using Sitecore.Data.Items;
-using Sitecore.Configuration;
-using Sitecore.Web;
-using Unic.SitecoreCMS.Modules.UrlMapper.Security.Filter;
-
-namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
+﻿namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
 {
+    using System;
+    using System.Net;
+    using System.Web;
+    using Sitecore.Configuration;
+    using Sitecore.Data.Items;
+    using Sitecore.Pipelines.HttpRequest;
+    using Sitecore.Web;
+    using Security.Filter;
+
     /// <summary>
     /// This class is called after the item resolver and maps old urls to new one.
     /// If a page is not found (got a 404) the class searches for available redirects under /sitecore/content/configuration/redirecs
@@ -37,14 +36,16 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
         /// <param name="args">current httprequest arguments</param>
         public override void Process(HttpRequestArgs args)
         {
-            
-            if (Sitecore.Context.Item != null || Sitecore.Context.Site == null || Sitecore.Context.Database == null)
+            string rawUrl = WebUtil.GetRawUrl();
+            if (Sitecore.Context.Item != null || Sitecore.Context.Site == null || Sitecore.Context.Database == null || rawUrl == null)
             {
                 return;
             }
-            
+
+            string requestUri = rawUrl.Split(new[] { '?' })[0];
+
             string filePath = Sitecore.Context.Request.FilePath.ToLower();
-            if (String.IsNullOrEmpty(filePath) || Sitecore.Web.WebUtil.IsExternalUrl(filePath) || System.IO.File.Exists(HttpContext.Current.Server.MapPath(filePath)))
+            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(HttpContext.Current.Server.MapPath(filePath))))
             {
                 return;
             }
@@ -56,13 +57,13 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
 
             FastQueryFilter filter = new FastQueryFilter();
 
-            string searchURL = Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl());
+            string searchURL = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
             searchURL = new Uri(searchURL).ToString();
             searchURL = filter.Filter(searchURL);
             
             Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
            
-            string searchUrlEncode = HttpUtility.UrlPathEncode(Sitecore.Web.WebUtil.GetFullUrl(Sitecore.Web.WebUtil.GetRawUrl()));
+            string searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
             searchUrlEncode = filter.Filter(searchUrlEncode);
             searchUrlEncode = new Uri(searchUrlEncode).ToString();
 
@@ -71,13 +72,13 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Pipelines.HttpRequest
             // HACK: replacement for Sitecore.Context.Database.SelectSingleItem(query); as the context database
             // never switched to web on delivery environments.
             string contextdb = Sitecore.Context.Database.ConnectionStringName;
-            Item redirect = Sitecore.Configuration.Factory.GetDatabase(contextdb).SelectSingleItem(query);
+            Item redirect = Factory.GetDatabase(contextdb).SelectSingleItem(query);
 
             if (redirect != null)
             {
                 string redirectURL = redirect["Redirect URL"];
-                System.Web.HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                System.Web.HttpContext.Current.Response.RedirectPermanent(redirectURL);
+                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+                HttpContext.Current.Response.RedirectPermanent(redirectURL);
 
                 Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + searchURL + " to " + redirectURL + ".", this);
             }
