@@ -180,9 +180,9 @@ namespace Unic.SitecoreCMS.Modules.UrlMapper.Website.sitecore_modules.Shell.Unic
                                             string[] values = line.Split(';');
                                             if (values != null && values.Length == 3)
                                             {
-                                                string itemName = values[0];
-                                                string searchUrl = values[1];
-                                                string redirectUrl = values[2];
+                                                string itemName = values[0].Trim();
+                                                string searchUrl = values[1].Trim();
+                                                string redirectUrl = values[2].Trim();
 
                                                 // check the two values for old and new url
                                                 if (!string.IsNullOrWhiteSpace(searchUrl) && !string.IsNullOrWhiteSpace(redirectUrl))
