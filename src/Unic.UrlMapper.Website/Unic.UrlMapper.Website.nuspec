@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Unic.UrlMapper</id>
+    <version>1.0.0</version>
+    <authors>Unic</authors>
+    <owners>Unic</owners>
+    <projectUrl>https://me.unic.com/display/BULLWCMS/Url+Mapper</projectUrl>
+    <iconUrl>https://www.unic.com/img/unic-logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Sitecore Url Mapper.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015 Unic AG</copyright>
+    <tags>Sitecore Unic Url Mapper</tags>
+    <dependencies>
+        <dependency id="Unic.UrlMapper.Core" version="$NuGetVersion$" />
+    </dependencies>
+  </metadata>
+</package>
