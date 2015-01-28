@@ -16,4 +16,10 @@
         <dependency id="Unic.UrlMapper.Core" version="$NuGetVersion$" />
     </dependencies>
   </metadata>
+   <files>
+    <file src="..\..\serialization\core\**\*.*" target="serialization\core" />
+	<file src="..\..\serialization\master\**\*.*" target="serialization\master" />
+    <file src="..\..\build\nuget\tools\**\*.*" target="tools" />
+    <file src="..\..\docs\nuget\readme.txt" target="readme.txt" />
+  </files>
 </package>
