@@ -1,2 +1,0 @@
-﻿<%@ OutputCache Location="None" VaryByParam="none" %>
-<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="Import Dialog Frame.aspx.cs" Inherits="Unic.SitecoreCMS.Modules.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper.Import_Dialog_Frame" %>
