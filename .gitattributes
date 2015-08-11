@@ -1,44 +1,11 @@
-* text=auto !eol
-packages/repositories.config -text
-packages/Sitecore.Client.6.5.121009.31/lib/Sitecore.Client.dll - text
-packages/Sitecore.Client.6.5.121009.31/Sitecore.Client.6.5.121009.31.nupkg - text
-packages/Sitecore.Kernel.6.5.121009.31/lib/Sitecore.Kernel.dll -text
-packages/Sitecore.Kernel.6.5.121009.31/Sitecore.Kernel.6.5.121009.31.nupkg -text
-build/Sitecore Package Definition/UrlMapper.xml -text
-serialization/core/sitecore/content/Documents[!!-~]and[!!-~]settings/All[!!-~]users/Start[!!-~]menu/Programs/Redirect[!!-~]Importer.item -text
-serialization/master/sitecore/templates/Unic.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Common.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Common/Redirect[!!-~]Folder.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Common/Redirect[!!-~]Folder/__Standard[!!-~]Values.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Redirect[!!-~]URL.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/Configuration/Search[!!-~]URL.item -text
-serialization/master/sitecore/templates/Unic/UrlMapping/Data/Redirect/__Standard[!!-~]Values.item -text
-serialization/security/sitecore/Roles/Redirect[!!-~]Importer.role -text
-Unic.UrlMapper.sln -text
-src/Unic.UrlMapper.Website/App_Config/Include/Unic.UrlMapper.config -text
-src/Unic.UrlMapper.Website/Properties/AssemblyInfo.cs -text
-src/Unic.UrlMapper.Website/Properties/PublishProfilesUrlMapper.pubxml -text
-src/Unic.UrlMapper.Website/Unic.UrlMapper.Website.csproj -text
-src/Unic.UrlMapper.Website/Unic.UrlMapper.Website.nuspec -text
-lib/Sitecore.Client.dll -text
-lib/Sitecore.Kernel.dll -text
-lib/Unic.SitecoreCMS.Framework.dll -text
-lib/Unic.SitecoreCMS.Framework.pdb -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog[!!-~]Frame.aspx -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog[!!-~]Frame.aspx.cs -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog[!!-~]Frame.aspx.designer.cs -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog.aspx -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog.aspx.cs -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Dialog.aspx.designer.cs -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/Import[!!-~]Wizard.cs -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/ImportWizard.xml -text
-src/Unic.UrlMapper.Website/sitecore[!!-~]modules/Shell/Unic/UrlMapper/OpenWizard.cs -text
-src/Unic.UrlMapper.Core/Pipelines/HttpRequest/UrlMapping.cs -text
-src/Unic.UrlMapper.Core/Properties/AssemblyInfo.cs -text
-src/Unic.UrlMapper.Core/Security/Filter/BaseFilter.cs -text
-src/Unic.UrlMapper.Core/Security/Filter/FastQueryFilter.cs -text
-src/Unic.UrlMapper.Core/Unic.UrlMapper.Core.csproj -text
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Custom for Visual Studio
+*.cs diff=csharp
+
+## Sitecore specific settings ##
+# unset the text attribute and prevent git from normalizing serialized files
+*.item -text
+*.role -text 
+
