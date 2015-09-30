@@ -129,11 +129,11 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                 // post output to the dialog
                 if (ErrorState)
                 {
-                    HttpContext.Current.Response.Write("<html><head><script type=\"text/JavaScript\" language=\"javascript\">window.top.frames[0].scForm.postRequest(\"\", \"\", \"\", \"EndImportingError(errorCode=" + ErrorCode + ")\")</script></head><body>Error</body></html>");
+                    HttpContext.Current.Response.Write("<html><head><script type=\"text/JavaScript\" language=\"javascript\">window.parent.frames[0].scForm.postRequest(\"\", \"\", \"\", \"EndImportingError(errorCode=" + ErrorCode + ")\")</script></head><body>Error</body></html>");
                 }
                 else
                 {
-                    HttpContext.Current.Response.Write("<html><head><script type=\"text/JavaScript\" language=\"javascript\">window.top.frames[0].scForm.postRequest(\"\", \"\", \"\", \"EndImporting\")</script></head><body>Done</body></html>");
+                    HttpContext.Current.Response.Write("<html><head><script type=\"text/JavaScript\" language=\"javascript\">window.parent.frames[0].scForm.postRequest(\"\", \"\", \"\", \"EndImporting\")</script></head><body>Done</body></html>");
                 }
             }
         }
