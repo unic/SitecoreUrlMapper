@@ -1,6 +1,7 @@
 ﻿namespace Unic.UrlMapper.Core.Pipelines.HttpRequest
 {
     using System;
+    using System.Linq;
     using System.Net;
     using System.Web;
     using Sitecore.Configuration;
@@ -8,6 +9,10 @@
     using Sitecore.Pipelines.HttpRequest;
     using Sitecore.Web;
     using Security.Filter;
+    using Sitecore.ContentSearch;
+    using Sitecore.ContentSearch.Linq;
+    using Sitecore.Data;
+    using Unic.UrlMapper.Core.Indexing;
 
     /// <summary>
     /// This class is called after the item resolver and maps old urls to new one.
@@ -28,7 +33,6 @@
     /// </summary>
     public class UrlMapping : HttpRequestProcessor
     {
-        
         /// <summary>
         /// Check if there is matching redirect item available under the configured root path and then make a permanent redirect
         /// to the new url.
@@ -60,14 +64,21 @@
             string searchURL = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
             searchURL = new Uri(searchURL).ToString();
             searchURL = filter.Filter(searchURL);
-            
+
             Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
-           
+
             string searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
             searchUrlEncode = filter.Filter(searchUrlEncode);
             searchUrlEncode = new Uri(searchUrlEncode).ToString();
 
-            string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId + "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
+            RedirectUsingContentSearch(redirectRootId, new ID(redirectItemTemplateId), searchURL, searchUrlEncode);
+        }
+
+        private void RedirectUsingFastQuery(string redirectRootId, string redirectItemTemplateId, string searchURL,
+            string searchUrlEncode)
+        {
+            string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId +
+                           "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
 
             // HACK: replacement for Sitecore.Context.Database.SelectSingleItem(query); as the context database
             // never switched to web on delivery environments.
@@ -82,7 +93,38 @@
 
                 Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + searchURL + " to " + redirectURL + ".", this);
             }
+        }
 
+        private void RedirectUsingContentSearch(string redirectRootId, ID redirectItemTemplateId, string searchUrl,
+            string searchUrlEncode)
+        {
+            var rootFolder = Sitecore.Context.Database.GetItem(redirectRootId);
+            if (rootFolder == null) return;
+
+            RedirectResultItem redirectItem = null;
+
+            using (var context = ContentSearchManager.CreateSearchContext((SitecoreIndexableItem)rootFolder))
+            {
+                // auf latest version?
+                var query = context.GetQueryable<RedirectResultItem>()
+                    .Filter(resultItem => resultItem.TemplateId == redirectItemTemplateId)
+                    //.Filter(resultItem => resultItem.IsLatestVersion)
+                    .Filter(resultItem => resultItem.SearchUrl == searchUrl || resultItem.SearchUrl == searchUrlEncode)
+                    ;
+
+                redirectItem = query.FirstOrDefault();
+            }
+
+            if (redirectItem != null)
+            {
+                //var redirectUrl = redirectItem.RedirectUrl;
+
+                var redirectUrl = redirectItem.GetItem().Fields["Redirect URL"].Value;
+                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
+                HttpContext.Current.Response.RedirectPermanent(redirectUrl);
+
+                Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + redirectUrl + " to " + redirectUrl + ".", this);
+            }
         }
     }
 }
