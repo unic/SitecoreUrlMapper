@@ -124,6 +124,15 @@
     <Content Include="App_Config\Include\20_author\Unic.UrlMapper.Serialization.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Config\Include\01_modules_lucene-author\Unic.UrlMapper.Index.Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.Index.Master.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.IndexConfiguration.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Properties\PublishProfiles\UrlMapper.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +144,9 @@
       <Name>Unic.UrlMapper.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Config\Include\NewFolder1\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
