@@ -4,6 +4,11 @@ Parent: "5772872c-d96c-4b09-90d5-d80bf79b2f17"
 Template: "5772872c-d96c-4b09-90d5-d80bf79b2f17"
 Path: /sitecore/templates/UrlMapper/Data/Redirect/__Standard Values
 DB: master
+SharedFields:
+- ID: "c9283d9e-7c29-4419-9c28-5a5c8ff53e84"
+  Hint: __Bucketable
+  Type: Checkbox
+  Value: 1
 Languages:
 - Language: en
   Versions:
