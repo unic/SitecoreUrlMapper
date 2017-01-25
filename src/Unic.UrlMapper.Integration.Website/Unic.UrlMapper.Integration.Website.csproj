@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props" Condition="Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props')" />
+  <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,24 +10,18 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AD122F16-BF2B-4A13-B400-9F92AD04AB99}</ProjectGuid>
+    <ProjectGuid>{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unic.UrlMapper.Website</RootNamespace>
-    <AssemblyName>Unic.UrlMapper.Website</AssemblyName>
+    <RootNamespace>Unic.UrlMapper.Integration.Website</RootNamespace>
+    <AssemblyName>Unic.UrlMapper.Integration.Website</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -38,7 +34,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,95 +42,103 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kamsar.WebConsole, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Kamsar.WebConsole.1.2.2.0\lib\net40\Kamsar.WebConsole.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MicroCHAP, Version=1.2.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MicroCHAP.1.2.2.2\lib\net45\MicroCHAP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Sitecore.Client, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Sitecore.Client.8.0.150121.72\lib\Sitecore.Client.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Rainbow, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rainbow.Core.1.4.1\lib\net452\Rainbow.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sitecore.ContentSearch.8.0.150121.72\lib\Sitecore.ContentSearch.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
+    <Reference Include="Rainbow.Storage.Sc, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rainbow.Storage.Sc.1.4.1\lib\net452\Rainbow.Storage.Sc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.ContentSearch.Linq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sitecore.ContentSearch.Linq.8.0.150121.72\lib\Sitecore.ContentSearch.Linq.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
+    <Reference Include="Rainbow.Storage.Yaml, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rainbow.Storage.Yaml.1.4.1\lib\net452\Rainbow.Storage.Yaml.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Sitecore.Kernel.8.0.150121.72\lib\Sitecore.Kernel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Unicorn, Version=3.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unicorn.Core.3.3.2\lib\net452\Unicorn.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx" />
-    <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx" />
-    <Content Include="sitecore modules\Shell\Unic\UrlMapper\ImportWizard.xml">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx.cs">
-      <DependentUpon>Import Dialog Frame.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx.designer.cs">
-      <DependentUpon>Import Dialog Frame.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx.cs">
-      <DependentUpon>Import Dialog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx.designer.cs">
-      <DependentUpon>Import Dialog.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\Import Wizard.cs" />
-    <Compile Include="sitecore modules\Shell\Unic\UrlMapper\OpenWizard.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_Config\Include\01_modules\Unic.Modules.UrlMapper.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="App_Data\license.xml" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\20_author\Unic.Modules.UrlMapper.Serialization.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="Properties\PublishProfiles\UrlMapper.pubxml" />
+    <Content Include="App_Config\ConnectionStrings.config" />
+    <Content Include="App_Config\Include\Rainbow.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unic.UrlMapper.Core\Unic.UrlMapper.Core.csproj">
-      <Project>{7ae1e528-1371-4633-b9bd-fee35232ecfd}</Project>
-      <Name>Unic.UrlMapper.Core</Name>
-    </ProjectReference>
+    <Content Include="App_Config\Include\Unic.UrlMapper.Integration.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.zSharedSecret.config.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Renderings\Sample\SampleInnerSublayout.cshtml" />
+    <Content Include="Views\Renderings\Sample\SampleLayout.cshtml" />
+    <Content Include="Views\Renderings\Sample\SampleRendering.cshtml" />
+    <Content Include="Views\Renderings\Sample\SampleSublayout.cshtml" />
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.UI.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.Remote.config.disabled" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.Deployed.config.disabled" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.DataProvider.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.CustomSerializationFolder.config.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.Configs.NewItemsOnly.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.Configs.Dependency.config.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.Configs.Default.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Config\Include\Unicorn\Unicorn.AutoPublish.config" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -147,12 +150,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56193</DevelopmentServerPort>
+          <DevelopmentServerPort>2869</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:2869/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -162,14 +164,12 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props'))" />
     <Error Condition="!Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets'))" />
   </Target>

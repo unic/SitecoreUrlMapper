@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unic.UrlMapper.Website", "src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.csproj", "{AD122F16-BF2B-4A13-B400-9F92AD04AB99}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,6 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unic.UrlMapper.Website", "s
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unic.UrlMapper.Core", "src\Unic.UrlMapper.Core\Unic.UrlMapper.Core.csproj", "{7AE1E528-1371-4633-B9BD-FEE35232ECFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unic.UrlMapper.Integration.Website", "src\Unic.UrlMapper.Integration.Website\Unic.UrlMapper.Integration.Website.csproj", "{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{56423376-EDA1-4C89-9E26-78DA92E9612D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{DBC354B2-0469-479E-88EB-AF30117865D4}"
+	ProjectSection(SolutionItems) = preProject
+		Bob.config = Bob.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,8 +33,15 @@ Global
 		{7AE1E528-1371-4633-B9BD-FEE35232ECFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AE1E528-1371-4633-B9BD-FEE35232ECFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AE1E528-1371-4633-B9BD-FEE35232ECFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592} = {56423376-EDA1-4C89-9E26-78DA92E9612D}
 	EndGlobalSection
 EndGlobal
