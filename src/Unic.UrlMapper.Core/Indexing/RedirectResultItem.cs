@@ -16,9 +16,6 @@
         [IndexField("_latestversion")]
         public bool IsLatestVersion { get; set; }
 
-        [IndexField("search_url")]
-        public string SearchUrl { get; set; }
-
         [IndexField("search_url_lowercase_untokenized")]
         public string SearchUrlLowerCaseUntokenized { get; set; }
 

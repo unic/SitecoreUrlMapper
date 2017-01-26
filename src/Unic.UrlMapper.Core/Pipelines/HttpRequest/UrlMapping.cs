@@ -106,12 +106,9 @@
 
             using (var context = ContentSearchManager.GetIndex(debug).CreateSearchContext())
             {
-                // auf latest version?
                 var query = context.GetQueryable<RedirectResultItem>()
                     .Filter(resultItem => resultItem.TemplateId == redirectItemTemplateId)
-                    .Filter(resultItem =>
-                        resultItem.SearchUrlLowerCaseUntokenized == searchUrl || resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode
-                        || resultItem.SearchUrl == searchUrl || resultItem.SearchUrl == searchUrlEncode)
+                    .Filter(resultItem => resultItem.SearchUrlLowerCaseUntokenized == searchUrl || resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode)
                     .Filter(resultItem => resultItem.IsLatestVersion);
 
                 redirectItem = query.FirstOrDefault();
@@ -119,8 +116,6 @@
 
             if (redirectItem != null)
             {
-                //var redirectUrl = redirectItem.RedirectUrl;
-
                 var redirectUrl = redirectItem.GetItem().Fields["Redirect URL"].Value;
                 HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
                 HttpContext.Current.Response.RedirectPermanent(redirectUrl);
