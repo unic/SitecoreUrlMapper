@@ -5,13 +5,10 @@
     using System.Net;
     using System.Web;
     using Sitecore.Configuration;
-    using Sitecore.Data.Items;
     using Sitecore.Pipelines.HttpRequest;
     using Sitecore.Web;
-    using Security.Filter;
     using Sitecore.ContentSearch;
     using Sitecore.ContentSearch.Linq;
-    using Sitecore.Data;
     using Unic.UrlMapper.Core.Indexing;
 
     /// <summary>
@@ -40,69 +37,39 @@
         /// <param name="args">current httprequest arguments</param>
         public override void Process(HttpRequestArgs args)
         {
-            string rawUrl = WebUtil.GetRawUrl();
+            var rawUrl = WebUtil.GetRawUrl();
             if (Sitecore.Context.Item != null || Sitecore.Context.Site == null || Sitecore.Context.Database == null || rawUrl == null)
             {
                 return;
             }
 
-            string requestUri = rawUrl.Split(new[] { '?' })[0];
+            var requestUri = rawUrl.Split(new[] { '?' })[0];
 
-            string filePath = Sitecore.Context.Request.FilePath.ToLower();
+            var filePath = Sitecore.Context.Request.FilePath.ToLower();
             if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(HttpContext.Current.Server.MapPath(filePath))))
             {
                 return;
             }
 
-
             // load configuration values
-            string redirectItemTemplateId = Settings.GetSetting("UrlMapper.ItemTemplateId");
-            string redirectRootId = Settings.GetSetting("UrlMapper.RootFolder");
+            var redirectItemTemplateId = Settings.GetSetting("UrlMapper.ItemTemplateId");
 
-            FastQueryFilter filter = new FastQueryFilter();
+            var searchUrl = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
+            searchUrl = new Uri(searchUrl).ToString().ToLower();
 
-            string searchURL = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
-            searchURL = new Uri(searchURL).ToString();
-            searchURL = filter.Filter(searchURL);
+            Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchUrl + ".", this);
 
-            Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchURL + ".", this);
+            var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
+            searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
 
-            string searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
-            searchUrlEncode = filter.Filter(searchUrlEncode);
-            searchUrlEncode = new Uri(searchUrlEncode).ToString();
-
-            RedirectUsingContentSearch(redirectRootId, Guid.Parse(redirectItemTemplateId), searchURL?.ToLower(), searchUrlEncode?.ToLower());
+            RedirectUsingContentSearch(Guid.Parse(redirectItemTemplateId), searchUrl, searchUrlEncode);
         }
 
-        private void RedirectUsingFastQuery(string redirectRootId, string redirectItemTemplateId, string searchURL,
+        private void RedirectUsingContentSearch(Guid redirectItemTemplateId, string searchUrl,
             string searchUrlEncode)
         {
-            string query = "fast://*[@@id='" + redirectRootId + "']//*[@@templateid='" + redirectItemTemplateId +
-                           "' and (@#Search URL# = '" + searchURL + "' or @#Search URL# = '" + searchUrlEncode + "')]";
-
-            // HACK: replacement for Sitecore.Context.Database.SelectSingleItem(query); as the context database
-            // never switched to web on delivery environments.
-            string contextdb = Sitecore.Context.Database.ConnectionStringName;
-            Item redirect = Factory.GetDatabase(contextdb).SelectSingleItem(query);
-
-            if (redirect != null)
-            {
-                string redirectURL = redirect["Redirect URL"];
-                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                HttpContext.Current.Response.RedirectPermanent(redirectURL);
-
-                Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + searchURL + " to " + redirectURL + ".", this);
-            }
-        }
-
-        private void RedirectUsingContentSearch(string redirectRootId, Guid redirectItemTemplateId, string searchUrl,
-            string searchUrlEncode)
-        {
-            var rootFolder = Sitecore.Context.Database.GetItem(redirectRootId);
-            if (rootFolder == null) return;
-
             RedirectResultItem redirectItem = null;
-            string debug = "unic_urlmapper_master";
+            var debug = "unic_urlmapper_master";
 
             using (var context = ContentSearchManager.GetIndex(debug).CreateSearchContext())
             {
@@ -116,7 +83,7 @@
 
             if (redirectItem != null)
             {
-                var redirectUrl = redirectItem.GetItem().Fields["Redirect URL"].Value;
+                var redirectUrl = redirectItem.RedirectUrl;
                 HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
                 HttpContext.Current.Response.RedirectPermanent(redirectUrl);
 
