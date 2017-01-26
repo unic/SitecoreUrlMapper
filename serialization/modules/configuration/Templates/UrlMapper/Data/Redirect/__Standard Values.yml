@@ -8,7 +8,7 @@ SharedFields:
 - ID: "c9283d9e-7c29-4419-9c28-5a5c8ff53e84"
   Hint: __Bucketable
   Type: Checkbox
-  Value: 1
+  Value: 0
 Languages:
 - Language: en
   Versions:

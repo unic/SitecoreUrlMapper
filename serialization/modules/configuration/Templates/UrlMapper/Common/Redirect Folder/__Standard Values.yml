@@ -11,12 +11,14 @@ SharedFields:
   Value: |
     {5772872C-D96C-4B09-90D5-D80BF79B2F17}
     {27A7F5CD-E5BA-4F43-85DB-9368FBEC3BE2}
+- ID: "39c4902e-9960-4469-aeef-e878e9c8218f"
+  Hint: __Hidden
+  Type: Checkbox
+  Value: 0
 - ID: "a0cb3965-8884-4c7a-8815-b6b2e5ced162"
   Hint: __Editors
   Type: TreelistEx
-  Value: |
-    {59F53BBB-D1F5-4E38-8EBA-0D73109BB59B}
-    {A0C460F4-DBAE-4A5A-8F3A-C4ADFCDACEEA}
+  Value: "{A0C460F4-DBAE-4A5A-8F3A-C4ADFCDACEEA}"
 - ID: "c9283d9e-7c29-4419-9c28-5a5c8ff53e84"
   Hint: __Bucketable
   Type: Checkbox
@@ -24,7 +26,7 @@ SharedFields:
 - ID: "d312103c-b36c-4ca5-864a-c85f9abda503"
   Hint: __Is Bucket
   Type: Checkbox
-  Value: 1
+  Value: 0
 Languages:
 - Language: en
   Versions:
