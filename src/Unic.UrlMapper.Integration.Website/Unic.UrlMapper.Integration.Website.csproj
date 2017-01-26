@@ -229,7 +229,7 @@
     <Content Include="App_Config\Include\Unicorn\Unicorn.Configs.Default.Roles.config.example" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\20_author-solr\Unic.UrlMapper.Solr.config">
+    <Content Include="App_Config\Include\20_author-solr\Unic.UrlMapper.Integration.Solr.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
