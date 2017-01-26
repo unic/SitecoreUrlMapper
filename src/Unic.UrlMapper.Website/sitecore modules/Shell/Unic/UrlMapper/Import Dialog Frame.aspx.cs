@@ -17,6 +17,8 @@ using Sitecore.Diagnostics;
 
 namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
 {
+    using Sitecore.Buckets.Managers;
+
     public partial class Import_Dialog_Frame : SecurePage
     {
 
@@ -216,6 +218,8 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     redirectItem["Search URL"] = searchUrl;
                                                     redirectItem["Redirect URL"] = redirectUrl;
                                                     redirectItem.Editing.EndEdit();
+
+                                                    BucketManager.MoveItemIntoBucket(redirectItem, rootFolder);
 
                                                     counter++;
                                                 }
