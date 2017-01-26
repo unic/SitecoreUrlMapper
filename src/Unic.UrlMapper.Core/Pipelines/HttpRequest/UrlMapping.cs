@@ -71,7 +71,7 @@
             searchUrlEncode = filter.Filter(searchUrlEncode);
             searchUrlEncode = new Uri(searchUrlEncode).ToString();
 
-            RedirectUsingContentSearch(redirectRootId, new ID(redirectItemTemplateId), searchURL?.ToLower(), searchUrlEncode?.ToLower());
+            RedirectUsingContentSearch(redirectRootId, Guid.Parse(redirectItemTemplateId), searchURL?.ToLower(), searchUrlEncode?.ToLower());
         }
 
         private void RedirectUsingFastQuery(string redirectRootId, string redirectItemTemplateId, string searchURL,
@@ -95,7 +95,7 @@
             }
         }
 
-        private void RedirectUsingContentSearch(string redirectRootId, ID redirectItemTemplateId, string searchUrl,
+        private void RedirectUsingContentSearch(string redirectRootId, Guid redirectItemTemplateId, string searchUrl,
             string searchUrlEncode)
         {
             var rootFolder = Sitecore.Context.Database.GetItem(redirectRootId);
@@ -107,7 +107,7 @@
             using (var context = ContentSearchManager.GetIndex(debug).CreateSearchContext())
             {
                 var query = context.GetQueryable<RedirectResultItem>()
-                    .Filter(resultItem => resultItem.TemplateId == redirectItemTemplateId)
+                    .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId))
                     .Filter(resultItem => resultItem.SearchUrlLowerCaseUntokenized == searchUrl || resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode)
                     .Filter(resultItem => resultItem.IsLatestVersion);
 
