@@ -19,6 +19,9 @@
         [IndexField("search_url")]
         public string SearchUrl { get; set; }
 
+        [IndexField("search_url_lowercase_untokenized")]
+        public string SearchUrlLowerCaseUntokenized { get; set; }
+
         [IndexField("redirect_url")]
         public string RedirectUrl { get; set; }
     }

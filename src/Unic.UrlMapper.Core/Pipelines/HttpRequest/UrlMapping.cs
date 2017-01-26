@@ -71,7 +71,7 @@
             searchUrlEncode = filter.Filter(searchUrlEncode);
             searchUrlEncode = new Uri(searchUrlEncode).ToString();
 
-            RedirectUsingContentSearch(redirectRootId, new ID(redirectItemTemplateId), searchURL, searchUrlEncode);
+            RedirectUsingContentSearch(redirectRootId, new ID(redirectItemTemplateId), searchURL?.ToLower(), searchUrlEncode?.ToLower());
         }
 
         private void RedirectUsingFastQuery(string redirectRootId, string redirectItemTemplateId, string searchURL,
@@ -102,15 +102,17 @@
             if (rootFolder == null) return;
 
             RedirectResultItem redirectItem = null;
+            string debug = "unic_urlmapper_master";
 
-            using (var context = ContentSearchManager.CreateSearchContext((SitecoreIndexableItem)rootFolder))
+            using (var context = ContentSearchManager.GetIndex(debug).CreateSearchContext())
             {
                 // auf latest version?
                 var query = context.GetQueryable<RedirectResultItem>()
                     .Filter(resultItem => resultItem.TemplateId == redirectItemTemplateId)
-                    //.Filter(resultItem => resultItem.IsLatestVersion)
-                    .Filter(resultItem => resultItem.SearchUrl == searchUrl || resultItem.SearchUrl == searchUrlEncode)
-                    ;
+                    .Filter(resultItem =>
+                        resultItem.SearchUrlLowerCaseUntokenized == searchUrl || resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode
+                        || resultItem.SearchUrl == searchUrl || resultItem.SearchUrl == searchUrlEncode)
+                    .Filter(resultItem => resultItem.IsLatestVersion);
 
                 redirectItem = query.FirstOrDefault();
             }

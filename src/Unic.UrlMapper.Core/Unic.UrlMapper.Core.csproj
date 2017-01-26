@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Indexing\Fields\SearchUrlLowerCaseUntokenizedField.cs" />
     <Compile Include="Indexing\RedirectResultItem.cs" />
     <Compile Include="Pipelines\HttpRequest\UrlMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
