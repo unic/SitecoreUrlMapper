@@ -44,4 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592} = {56423376-EDA1-4C89-9E26-78DA92E9612D}
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+	EndGlobalSection
 EndGlobal

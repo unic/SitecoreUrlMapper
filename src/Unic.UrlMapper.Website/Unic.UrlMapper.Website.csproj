@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Sitecore.8.1.160302.206\build\Sitecore.props" Condition="Exists('..\..\packages\Sitecore.8.1.160302.206\build\Sitecore.props')" />
   <Import Project="..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props" Condition="Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,14 +58,12 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sitecore.ContentSearch.8.0.150121.72\lib\Sitecore.ContentSearch.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
+      <HintPath>..\..\packages\Sitecore.ContentSearch.8.1.160302.206\lib\Sitecore.ContentSearch.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Linq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sitecore.ContentSearch.Linq.8.0.150121.72\lib\Sitecore.ContentSearch.Linq.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
+      <HintPath>..\..\packages\Sitecore.ContentSearch.Linq.8.1.160302.206\lib\Sitecore.ContentSearch.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -133,6 +132,9 @@
     <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.IndexConfiguration.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.Index.Master.config" />
+    <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.Index.Web.config" />
+    <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.IndexConfiguration.config" />
     <None Include="Properties\PublishProfiles\UrlMapper.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +146,7 @@
       <Name>Unic.UrlMapper.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Config\Include\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -183,6 +183,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.props'))" />
     <Error Condition="!Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Sitecore.8.1.160302.206\build\Sitecore.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Sitecore.8.1.160302.206\build\Sitecore.props'))" />
   </Target>
   <Import Project="..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets" Condition="Exists('..\..\packages\Unic.Bob.Muck.2.0.0\build\Unic.Bob.Muck.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
