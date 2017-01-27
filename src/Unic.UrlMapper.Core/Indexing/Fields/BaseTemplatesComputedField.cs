@@ -5,13 +5,9 @@
     using Sitecore.Data.Items;
     using Unic.Framework.Core.Items.Extensions;
 
-    public class BaseTemplatesComputedField : IComputedIndexField
+    public class BaseTemplatesComputedField : AbstractComputedIndexField
     {
-        public string FieldName { get; set; }
-
-        public string ReturnType { get; set; }
-
-        public object ComputeFieldValue(IIndexable indexable)
+        public override object ComputeFieldValue(IIndexable indexable)
         {
             var item = (Item)(indexable as SitecoreIndexableItem);
 

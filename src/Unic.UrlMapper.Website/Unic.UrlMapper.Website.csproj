@@ -84,6 +84,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="readme.txt" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\ImportWizard.xml">
@@ -121,10 +122,10 @@
     <Content Include="App_Config\Include\01_modules_author\Unic.UrlMapper.Serialization.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\01_modules_lucene-author\Unic.UrlMapper.Index.Web.config">
+    <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.Index.Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.Index.Master.config">
+    <Content Include="App_Config\Include\01_modules_lucene-author\Unic.UrlMapper.Index.Master.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.IndexConfiguration.config">
