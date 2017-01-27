@@ -84,7 +84,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.txt" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog Frame.aspx" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\Import Dialog.aspx" />
     <Content Include="sitecore modules\Shell\Unic\UrlMapper\ImportWizard.xml">
