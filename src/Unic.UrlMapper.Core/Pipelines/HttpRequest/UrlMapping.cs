@@ -65,7 +65,7 @@
             RedirectUsingContentSearch(Guid.Parse(redirectItemTemplateId), searchUrl, searchUrlEncode);
         }
 
-        private void RedirectUsingContentSearch(Guid redirectItemTemplateId, string searchUrl,
+        protected virtual void RedirectUsingContentSearch(Guid redirectItemTemplateId, string searchUrl,
             string searchUrlEncode)
         {
             RedirectResultItem redirectItem = null;
