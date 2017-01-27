@@ -4,18 +4,15 @@
     using Sitecore.ContentSearch.ComputedFields;
     using Sitecore.Data.Items;
 
-    public class SearchUrlLowerCaseUntokenizedField : IComputedIndexField
+    public class SearchUrlLowerCaseUntokenizedField : AbstractComputedIndexField
     {
         private const string searchUrlFieldName = "search url";
 
-        public object ComputeFieldValue(IIndexable indexable)
+        public override object ComputeFieldValue(IIndexable indexable)
         {
             var item = (Item) (indexable as SitecoreIndexableItem);
 
             return item?[searchUrlFieldName].ToLowerInvariant();
         }
-
-        public string FieldName { get; set; }
-        public string ReturnType { get; set; }
     }
 }
