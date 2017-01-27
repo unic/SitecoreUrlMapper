@@ -21,5 +21,8 @@
 
         [IndexField("redirect_url")]
         public string RedirectUrl { get; set; }
+
+        [IndexField("permanent_redirect")]
+        public bool IsPermanentRedirect { get; set; }
     }
 }

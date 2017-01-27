@@ -87,8 +87,20 @@
             if (redirectItem != null)
             {
                 var redirectUrl = redirectItem.RedirectUrl;
-                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                HttpContext.Current.Response.RedirectPermanent(redirectUrl);
+
+                var statusCode = redirectItem.IsPermanentRedirect
+                    ? HttpStatusCode.MovedPermanently
+                    : HttpStatusCode.Redirect;
+
+                HttpContext.Current.Response.StatusCode = (int)statusCode;
+                if (statusCode == HttpStatusCode.MovedPermanently)
+                {
+                    HttpContext.Current.Response.RedirectPermanent(redirectUrl);
+                }
+                else
+                {
+                    HttpContext.Current.Response.Redirect(redirectUrl);
+                }
 
                 Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + redirectUrl + " to " + redirectUrl + ".", this);
             }
