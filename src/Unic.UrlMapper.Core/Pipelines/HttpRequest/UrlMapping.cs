@@ -24,7 +24,7 @@
     /// &lt;pipelines&gt;
     ///	    &lt;httpRequestBegin&gt;
     ///		    &lt;processor patch:after="processor[@type='Sitecore.Pipelines.HttpRequest.ItemResolver, Sitecore.Kernel']"
-    ///		        type="Unic.UrlMapper.Core.Pipelines.HttpRequest.UrlMappinunicg, Unic.SitecoreCMS.Modules.UrlMapper" /&gt;
+    ///		        type="Unic.UrlMapper.Core.Pipelines.HttpRequest.UrlMapping, Unic.SitecoreCMS.Modules.UrlMapper" /&gt;
     ///     &lt;/httpRequestBegin&gt;
     /// &lt;/pipelines&gt;
     /// </code>
