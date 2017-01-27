@@ -9,6 +9,7 @@
     using Sitecore.Web;
     using Sitecore.ContentSearch;
     using Sitecore.ContentSearch.Linq;
+    using Sitecore.Data;
     using Unic.UrlMapper.Core.Indexing;
 
     /// <summary>
@@ -52,7 +53,8 @@
             }
 
             // load configuration values
-            var redirectItemTemplateId = Settings.GetSetting("UrlMapper.ItemTemplateId");
+            var redirectRootId = new ID(Settings.GetSetting("UrlMapper.RootFolder"));
+            var redirectItemTemplateId = Guid.Parse(Settings.GetSetting("UrlMapper.ItemTemplateId"));
 
             var searchUrl = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
             searchUrl = new Uri(searchUrl).ToString().ToLower();
@@ -62,10 +64,10 @@
             var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
             searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
 
-            RedirectUsingContentSearch(Guid.Parse(redirectItemTemplateId), searchUrl, searchUrlEncode);
+            RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode);
         }
 
-        protected virtual void RedirectUsingContentSearch(Guid redirectItemTemplateId, string searchUrl,
+        protected virtual void RedirectUsingContentSearch(ID redirectRootId, Guid redirectItemTemplateId, string searchUrl,
             string searchUrlEncode)
         {
             RedirectResultItem redirectItem = null;
@@ -74,6 +76,7 @@
             using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
             {
                 var query = context.GetQueryable<RedirectResultItem>()
+                    .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
                     .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId))
                     .Filter(resultItem => resultItem.SearchUrlLowerCaseUntokenized == searchUrl || resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode)
                     .Filter(resultItem => resultItem.IsLatestVersion);
