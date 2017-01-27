@@ -118,7 +118,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\20_author\Unic.UrlMapper.Serialization.config">
+    <Content Include="App_Config\Include\01_modules_author\Unic.UrlMapper.Serialization.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\01_modules_lucene-author\Unic.UrlMapper.Index.Web.config">
