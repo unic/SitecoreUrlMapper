@@ -69,9 +69,9 @@
             string searchUrlEncode)
         {
             RedirectResultItem redirectItem = null;
-            var debug = "urlmapper_master";
+            var indexName = Settings.GetSetting("UrlMapper.IndexName");
 
-            using (var context = ContentSearchManager.GetIndex(debug).CreateSearchContext())
+            using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
             {
                 var query = context.GetQueryable<RedirectResultItem>()
                     .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId))
