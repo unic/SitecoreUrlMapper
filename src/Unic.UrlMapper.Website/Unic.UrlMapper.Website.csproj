@@ -130,7 +130,7 @@
     <Content Include="App_Config\Include\01_modules_lucene\Unic.UrlMapper.IndexConfiguration.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.Index.Master.config" />
+    <Content Include="App_Config\Include\01_modules_solr-author\Unic.UrlMapper.Index.Master.config" />
     <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.Index.Web.config" />
     <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.IndexConfiguration.config" />
     <None Include="Properties\PublishProfiles\UrlMapper.pubxml" />
