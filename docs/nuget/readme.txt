@@ -7,9 +7,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_| """ |_| """ |_|"""""|_|"""""|
 
 Items
 -----
-The serialized items were copied to the "serialization" folder in the root directory. Please copy
-these items into your data directory (or adapt the serialization folder path) and update your
-database.
+The serialized items must be copied from the package directory to the serialization path of your site.
 
 Manual item creation
 --------------------
