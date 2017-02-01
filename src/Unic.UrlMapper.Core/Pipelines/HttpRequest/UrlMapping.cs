@@ -62,8 +62,8 @@
                 Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
                 return;
             }
-            Guid redirectItemTemplateId;
-            if (!Guid.TryParse(redirectItemSetting, out redirectItemTemplateId))
+            ID redirectItemTemplateId;
+            if (!ID.TryParse(redirectItemSetting, out redirectItemTemplateId))
             {
                 Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
                 return;
@@ -80,7 +80,7 @@
             RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode);
         }
 
-        protected virtual void RedirectUsingContentSearch(ID redirectRootId, Guid redirectItemTemplateId, string searchUrl,
+        protected virtual void RedirectUsingContentSearch(ID redirectRootId, ID redirectItemTemplateId, string searchUrl,
             string searchUrlEncode)
         {
             RedirectResultItem redirectItem = null;
@@ -97,7 +97,7 @@
                 {
                     var query = context.GetQueryable<RedirectResultItem>()
                         .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
-                        .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId))
+                        .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId.Guid) || resultItem.TemplateId == redirectItemTemplateId)
                         .Filter(
                             resultItem =>
                                 resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
