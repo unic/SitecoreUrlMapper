@@ -62,9 +62,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unic.Framework.Core, Version=3.1.0.123, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unic.Framework.Core.3.1.0-unstable0123\lib\net45\Unic.Framework.Core.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Unic.Framework.Core, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unic.Framework.Core.3.1.0\lib\net45\Unic.Framework.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
