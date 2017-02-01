@@ -7,9 +7,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_| """ |_| """ |_|"""""|_|"""""|
 
 Items
 -----
-The serialized items were copied to the "serialization" folder in the root directory. Please copy
-these items into your data directory (or adapt the serialization folder path) and update your
-database.
+The serialized items must be copied from the package directory to the serialization path of your site.
 
 Manual item creation
 --------------------
@@ -41,6 +39,11 @@ Base settings (required for all search providers)
 3)	Index Root:
 	Unic.UrlMapper.Index.Web and Unic.UrlMapper.Index.Master are pointing to /sitecore by default.
 	Patch /locations/crawler/Root to point to your RootFolder to reduce index size and query time.
+
+4)	Computed field "_basetemplates":
+	Ensure that your default index configuration include our "_basetemplates" calculated field. UrlMapper uses this field
+	find the redirects (however, there is a fallback to templateId). Check the integration project of the UrlMapper solution
+	if you need to add this field to your index. There is an implementation you can use in UrlMapper.Core.
 
 Solr config
 -----------

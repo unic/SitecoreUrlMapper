@@ -12,7 +12,8 @@
         {
             var item = (Item) (indexable as SitecoreIndexableItem);
 
-            return item?[searchUrlFieldName].ToLowerInvariant();
+            var res = item?[searchUrlFieldName]?.ToLowerInvariant();
+            return string.IsNullOrWhiteSpace(res) ? null : res;
         }
     }
 }

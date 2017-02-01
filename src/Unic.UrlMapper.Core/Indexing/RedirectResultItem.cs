@@ -9,7 +9,7 @@
 
     public class RedirectResultItem : SearchResultItem
     {
-        [IndexField("basetemplates")]
+        [IndexField("_basetemplates")]
         [TypeConverter(typeof(IndexFieldEnumerableConverter))]
         public virtual IEnumerable<Guid> BaseTemplates { get; set; }
 
