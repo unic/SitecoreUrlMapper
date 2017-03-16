@@ -72,7 +72,7 @@
             var searchUrl = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
             searchUrl = new Uri(searchUrl).ToString().ToLower();
 
-            Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Search URL: " + searchUrl + ".", this);
+            Sitecore.Diagnostics.Log.Info("UrlMapper: Search URL: " + searchUrl + ".", this);
 
             var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
             searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
@@ -121,7 +121,10 @@
                     ? HttpStatusCode.MovedPermanently
                     : HttpStatusCode.Redirect;
 
-                HttpContext.Current.Response.StatusCode = (int) statusCode;
+                HttpContext.Current.Response.StatusCode = (int)statusCode;
+                Sitecore.Diagnostics.Log.Info(
+                    $"UrlMapper: Redirect {redirectUrl} to {redirectUrl} (HTTP {HttpContext.Current.Response.StatusCode}).", this);
+
                 if (statusCode == HttpStatusCode.MovedPermanently)
                 {
                     HttpContext.Current.Response.RedirectPermanent(redirectUrl);
@@ -130,9 +133,6 @@
                 {
                     HttpContext.Current.Response.Redirect(redirectUrl);
                 }
-
-                Sitecore.Diagnostics.Log.Info(
-                    "UrlMapper: UrlMapping: Redirect " + redirectUrl + " to " + redirectUrl + ".", this);
             }
             else
             {
