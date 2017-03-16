@@ -29,14 +29,14 @@
     /// &lt;/pipelines&gt;
     /// </code>
     /// </summary>
-    public class UrlMapping : HttpRequestProcessor
+    public class UrlMapping : ProcessorBase<HttpRequestArgs>
     {
         /// <summary>
         /// Check if there is matching redirect item available under the configured root path and then make a permanent redirect
         /// to the new url.
         /// </summary>
         /// <param name="args">current httprequest arguments</param>
-        public override void Process(HttpRequestArgs args)
+        protected override void Execute(HttpRequestArgs args)
         {
             var rawUrl = WebUtil.GetRawUrl();
             if (Sitecore.Context.Item != null || Sitecore.Context.Site == null || Sitecore.Context.Database == null || rawUrl == null)
