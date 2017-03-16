@@ -18,7 +18,7 @@
   </metadata>
    <files>
     <file src="..\..\serialization\modules\**\*.*" target="serialization\modules" />
-	<file src="..\..\serialization\roles\**\*.*" target="serialization\roles" />
+	  <file src="..\..\serialization\roles\**\*.*" target="serialization\roles" />
     <file src="Tools\**\*.*" target="tools" />
     <file src="..\..\docs\nuget\readme.txt" target="readme.txt" />
   </files>
