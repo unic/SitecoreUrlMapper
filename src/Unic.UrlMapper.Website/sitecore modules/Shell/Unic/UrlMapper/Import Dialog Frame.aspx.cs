@@ -183,6 +183,13 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 string itemName = values[0].Trim();
                                                 string searchUrl = values[1].Trim();
                                                 string redirectUrl = values[2].Trim();
+                                                string permanentRedirect = "0";
+
+                                                //Set value for permanent Redirect or not
+                                                if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
+                                                {
+                                                    permanentRedirect = "1";
+                                                }
 
                                                 // check the two values for old and new url
                                                 if (!string.IsNullOrWhiteSpace(searchUrl) && !string.IsNullOrWhiteSpace(redirectUrl))
@@ -215,6 +222,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     redirectItem.Editing.BeginEdit();
                                                     redirectItem["Search URL"] = searchUrl;
                                                     redirectItem["Redirect URL"] = redirectUrl;
+                                                    redirectItem["Permanent Redirect"] = permanentRedirect;
                                                     redirectItem.Editing.EndEdit();
 
                                                     counter++;
