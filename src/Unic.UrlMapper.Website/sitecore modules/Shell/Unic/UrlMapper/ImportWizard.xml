@@ -60,6 +60,13 @@
           </Listbox>
 
           <Space Height="16"/>
+
+          <Border Padding="0 0 2 0">
+            <input id="PermanentRedirect" name="PermanentRedirect" type="checkbox" value="1" />
+            <Literal Text="Import Redirects as Permanent Redirect"/>
+          </Border>
+          
+          <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
             <input id="DeleteImport" name="DeleteImport" type="checkbox" value="1" />
