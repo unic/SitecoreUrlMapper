@@ -1,0 +1,1 @@
+docker-compose -p urlmapper -f .\misc\Docker\docker-compose.yml up -d

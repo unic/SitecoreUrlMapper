@@ -1,0 +1,17 @@
+version: '3'
+services:
+  solr:
+    image: solr:5.5-alpine
+    ports:
+     - "12983:8983"
+    volumes:
+      - ../Solr/solr-5.5.0-1:/mycores:ro
+      - solr-data:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - urlmapper
+      - /mycores
+    restart: "always"
+volumes:
+  solr-data:

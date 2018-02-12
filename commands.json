@@ -1,0 +1,9 @@
+{
+  "commands": {
+    "install-docker": {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive /noprofile /c ./misc/docker/install-docker.ps1"
+    }
+  }
+}
