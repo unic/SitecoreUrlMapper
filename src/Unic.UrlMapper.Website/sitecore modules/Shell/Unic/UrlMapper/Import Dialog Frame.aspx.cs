@@ -173,22 +173,29 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                         // create a new folder for every import
                                         ImportRoot = rootFolder.Add(IsoNow, folderTemplate);
                                         Item currentFolder = null;
+                                        Item subFolderItem = null;
                                         int counter = 0;
+
+                                        string permanentRedirect = "0";
+
+                                        //Set value for permanent Redirect or not
+                                        if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
+                                        {
+                                            permanentRedirect = "1";
+                                        }
 
                                         while ((line = stream.ReadLine()) != null)
                                         {
                                             string[] values = line.Split(';');
-                                            if (values != null && values.Length == 3)
+                                            if (values != null && values.Length >= 3)
                                             {
                                                 string itemName = values[0].Trim();
                                                 string searchUrl = values[1].Trim();
                                                 string redirectUrl = values[2].Trim();
-                                                string permanentRedirect = "0";
-
-                                                //Set value for permanent Redirect or not
-                                                if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
+                                                string subFolder = null;
+                                                if (values.Length >= 4)
                                                 {
-                                                    permanentRedirect = "1";
+                                                    subFolder = values[3].Trim();
                                                 }
 
                                                 // check the two values for old and new url
@@ -198,6 +205,14 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     if ((counter % ItemsPerFolder) == 0)
                                                     {
                                                         currentFolder = ImportRoot.Add((counter / ItemsPerFolder) + 1 + "", folderTemplate);
+                                                    }
+
+                                                    // create new subfolder if required
+                                                    if (!string.IsNullOrWhiteSpace(subFolder))
+                                                    {
+                                                        // ReSharper disable once PossibleNullReferenceException
+                                                        subFolderItem = currentFolder.Children[subFolder] ??
+                                                                        currentFolder.Add(subFolder, folderTemplate);
                                                     }
 
                                                     // get name for the new item
@@ -218,12 +233,21 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     }
 
                                                     // create redirect and set the fields
-                                                    Item redirectItem = currentFolder.Add(name, redirectsTemplate);
-                                                    redirectItem.Editing.BeginEdit();
-                                                    redirectItem["Search URL"] = searchUrl;
-                                                    redirectItem["Redirect URL"] = redirectUrl;
-                                                    redirectItem["Permanent Redirect"] = permanentRedirect;
-                                                    redirectItem.Editing.EndEdit();
+                                                    // if no subfolder has been defined, the item will be created in the
+                                                    // current chunk folder.
+                                                    Item redirectItem = (!string.IsNullOrWhiteSpace(subFolder)
+                                                        ? subFolderItem
+                                                        : currentFolder)
+                                                    ?.Add(name, redirectsTemplate);
+
+                                                    if (redirectItem != null)
+                                                    {
+                                                        redirectItem.Editing.BeginEdit();
+                                                        redirectItem["Search URL"] = searchUrl;
+                                                        redirectItem["Redirect URL"] = redirectUrl;
+                                                        redirectItem["Permanent Redirect"] = permanentRedirect;
+                                                        redirectItem.Editing.EndEdit();
+                                                    }
 
                                                     counter++;
                                                 }
@@ -279,7 +303,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
             }
 
         }
-        
+
         #endregion
 
         #region Delete
