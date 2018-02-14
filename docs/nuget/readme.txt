@@ -36,11 +36,17 @@ Base settings (required for all search providers)
 2)	Setting "UrlMapper.IndexName":
 	Set this to the name of the index you would like to use (eg "urlmapper_master" for author, "urlmapper_web" for delivery).
 
-3)	Index Root:
+3)	Setting "UrlMapper.Domain.Author":
+	Set this to the domain that should be used to replace the {Domain} token for items in the master db
+
+4)	Setting "UrlMapper.Domain.Delivery":
+	Set this to the domain that should be used to replace the {Domain} token for items in the web db
+
+5)	Index Root:
 	Unic.UrlMapper.Index.Web and Unic.UrlMapper.Index.Master are pointing to /sitecore by default.
 	Patch /locations/crawler/Root to point to your RootFolder to reduce index size and query time.
 
-4)	Computed field "_basetemplates":
+6)	Computed field "_basetemplates":
 	Ensure that your default index configuration include our "_basetemplates" calculated field. UrlMapper uses this field
 	find the redirects (however, there is a fallback to templateId). Check the integration project of the UrlMapper solution
 	if you need to add this field to your index. There is an implementation you can use in UrlMapper.Core.

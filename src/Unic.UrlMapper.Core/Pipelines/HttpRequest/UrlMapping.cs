@@ -115,7 +115,7 @@
 
             if (redirectItem != null)
             {
-                var redirectUrl = redirectItem.RedirectUrl;
+                var redirectUrl = redirectItem.RedirectUrlLowerCaseUntokenized;
 
                 var statusCode = redirectItem.IsPermanentRedirect
                     ? HttpStatusCode.MovedPermanently
@@ -123,7 +123,7 @@
 
                 HttpContext.Current.Response.StatusCode = (int)statusCode;
                 Sitecore.Diagnostics.Log.Info(
-                    $"UrlMapper: Redirect {redirectUrl} to {redirectUrl} (HTTP {HttpContext.Current.Response.StatusCode}).", this);
+                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {HttpContext.Current.Response.StatusCode}).", this);
 
                 if (statusCode == HttpStatusCode.MovedPermanently)
                 {
