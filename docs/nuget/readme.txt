@@ -34,7 +34,7 @@ Base settings (required for all search providers)
 	Set this to the ID of your redirect root folder.
 
 2)	Setting "UrlMapper.IndexName":
-	Set this to the name of the index you would like to use (eg "urlmapper_master" for author, "urlmapper_web" for delivery).
+	Set this to the name of the index you would like to use (eg "urlmapper_master_index" for author, "urlmapper_web_index" for delivery).
 
 3)	Setting "UrlMapper.Domain.Author":
 	Set this to the domain that should be used to replace the {Domain} token for items in the master db
