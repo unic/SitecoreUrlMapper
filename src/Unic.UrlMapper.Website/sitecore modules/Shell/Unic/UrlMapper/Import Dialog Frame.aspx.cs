@@ -172,9 +172,8 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                     {
                                         // create a new folder for every import
                                         ImportRoot = rootFolder.Add(IsoNow, folderTemplate);
-                                        Item currentFolder = null;
+                                        Item chunkFolder = null;
                                         Item subFolderItem = null;
-                                        int counter = 0;
 
                                         string permanentRedirect = "0";
 
@@ -184,6 +183,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                             permanentRedirect = "1";
                                         }
 
+                                        var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
                                             string[] values = line.Split(';');
@@ -192,7 +192,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 string itemName = values[0].Trim();
                                                 string searchUrl = values[1].Trim();
                                                 string redirectUrl = values[2].Trim();
-                                                string subFolder = null;
+                                                string subFolder = string.Empty;
                                                 if (values.Length >= 4)
                                                 {
                                                     subFolder = values[3].Trim();
@@ -201,18 +201,32 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 // check the two values for old and new url
                                                 if (!string.IsNullOrWhiteSpace(searchUrl) && !string.IsNullOrWhiteSpace(redirectUrl))
                                                 {
-                                                    // create new folder if chunk size is reached
-                                                    if ((counter % ItemsPerFolder) == 0)
+                                                    if (!counters.TryGetValue(subFolder, out var counter))
                                                     {
-                                                        currentFolder = ImportRoot.Add((counter / ItemsPerFolder) + 1 + "", folderTemplate);
+                                                        counter = 0;
                                                     }
 
-                                                    // create new subfolder if required
+                                                    // Create subfolder if defined and it doesn't exist yet
+                                                    var workingFolder = ImportRoot;
                                                     if (!string.IsNullOrWhiteSpace(subFolder))
                                                     {
-                                                        // ReSharper disable once PossibleNullReferenceException
-                                                        subFolderItem = currentFolder.Children[subFolder] ??
-                                                                        currentFolder.Add(subFolder, folderTemplate);
+                                                        workingFolder = ImportRoot.Children[subFolder]
+                                                            ?? ImportRoot.Add(subFolder, folderTemplate);
+                                                    }
+
+                                                    // determine chunk folder
+                                                    if (counter % ItemsPerFolder == 0)
+                                                    {
+                                                        // create new folder if chunk size is reached
+                                                        chunkFolder = workingFolder.Add(
+                                                            (counter / ItemsPerFolder) + 1 + "", folderTemplate);
+                                                    }
+                                                    else
+                                                    {
+                                                        // get the existing chunk folder based on counter
+                                                        chunkFolder =
+                                                            workingFolder.Children[
+                                                                (counter / ItemsPerFolder + 1).ToString()];
                                                     }
 
                                                     // get name for the new item
@@ -233,12 +247,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     }
 
                                                     // create redirect and set the fields
-                                                    // if no subfolder has been defined, the item will be created in the
-                                                    // current chunk folder.
-                                                    Item redirectItem = (!string.IsNullOrWhiteSpace(subFolder)
-                                                        ? subFolderItem
-                                                        : currentFolder)
-                                                    ?.Add(name, redirectsTemplate);
+                                                    Item redirectItem = chunkFolder.Add(name, redirectsTemplate);
 
                                                     if (redirectItem != null)
                                                     {
@@ -249,17 +258,14 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         redirectItem.Editing.EndEdit();
                                                     }
 
-                                                    counter++;
+                                                    counters[subFolder] = ++counter;
                                                 }
                                             }
                                         }
                                     }
                                     catch (Exception ex)
                                     {
-                                        if (ImportRoot != null)
-                                        {
-                                            ImportRoot.Delete();
-                                        }
+                                        ImportRoot?.Delete();
 
                                         ErrorState = true;
                                         Log.Error("UrlMapper: Import :: Unexpected error", ex, this);
