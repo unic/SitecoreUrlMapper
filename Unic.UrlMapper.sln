@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unic.UrlMapper.Website", "src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.csproj", "{AD122F16-BF2B-4A13-B400-9F92AD04AB99}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,6 +17,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{DBC354B2-0469-479E-88EB-AF30117865D4}"
 	ProjectSection(SolutionItems) = preProject
 		Bob.config = Bob.config
+		commands.json = commands.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{F5AF4796-1487-48DA-8503-C4FC7FA70930}"
+	ProjectSection(SolutionItems) = preProject
+		misc\Docker\docker-compose.yml = misc\Docker\docker-compose.yml
+		misc\Docker\install-docker.ps1 = misc\Docker\install-docker.ps1
 	EndProjectSection
 EndProject
 Global
@@ -43,8 +50,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592} = {56423376-EDA1-4C89-9E26-78DA92E9612D}
+		{F5AF4796-1487-48DA-8503-C4FC7FA70930} = {DBC354B2-0469-479E-88EB-AF30117865D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		SolutionGuid = {D6A67EFE-93CA-4B6A-A5CB-4A1E011C005B}
 	EndGlobalSection
 EndGlobal

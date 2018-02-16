@@ -19,8 +19,8 @@
         [IndexField("search_url_lowercase_untokenized")]
         public string SearchUrlLowerCaseUntokenized { get; set; }
 
-        [IndexField("redirect_url")]
-        public string RedirectUrl { get; set; }
+        [IndexField("redirect_url_lowercase_untokenized")]
+        public string RedirectUrlLowerCaseUntokenized { get; set; }
 
         [IndexField("permanent_redirect")]
         public bool IsPermanentRedirect { get; set; }

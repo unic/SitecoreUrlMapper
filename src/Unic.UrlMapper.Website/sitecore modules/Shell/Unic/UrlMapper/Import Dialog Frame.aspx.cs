@@ -172,32 +172,61 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                     {
                                         // create a new folder for every import
                                         ImportRoot = rootFolder.Add(IsoNow, folderTemplate);
-                                        Item currentFolder = null;
-                                        int counter = 0;
+                                        Item chunkFolder = null;
+                                        Item subFolderItem = null;
 
+                                        string permanentRedirect = "0";
+
+                                        //Set value for permanent Redirect or not
+                                        if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
+                                        {
+                                            permanentRedirect = "1";
+                                        }
+
+                                        var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
                                             string[] values = line.Split(';');
-                                            if (values != null && values.Length == 3)
+                                            if (values != null && values.Length >= 3)
                                             {
                                                 string itemName = values[0].Trim();
                                                 string searchUrl = values[1].Trim();
                                                 string redirectUrl = values[2].Trim();
-                                                string permanentRedirect = "0";
-
-                                                //Set value for permanent Redirect or not
-                                                if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
+                                                string subFolder = string.Empty;
+                                                if (values.Length >= 4)
                                                 {
-                                                    permanentRedirect = "1";
+                                                    subFolder = values[3].Trim();
                                                 }
 
                                                 // check the two values for old and new url
                                                 if (!string.IsNullOrWhiteSpace(searchUrl) && !string.IsNullOrWhiteSpace(redirectUrl))
                                                 {
-                                                    // create new folder if chunk size is reached
-                                                    if ((counter % ItemsPerFolder) == 0)
+                                                    if (!counters.TryGetValue(subFolder, out var counter))
                                                     {
-                                                        currentFolder = ImportRoot.Add((counter / ItemsPerFolder) + 1 + "", folderTemplate);
+                                                        counter = 0;
+                                                    }
+
+                                                    // Create subfolder if defined and it doesn't exist yet
+                                                    var workingFolder = ImportRoot;
+                                                    if (!string.IsNullOrWhiteSpace(subFolder))
+                                                    {
+                                                        workingFolder = ImportRoot.Children[subFolder]
+                                                            ?? ImportRoot.Add(subFolder, folderTemplate);
+                                                    }
+
+                                                    // determine chunk folder
+                                                    if (counter % ItemsPerFolder == 0)
+                                                    {
+                                                        // create new folder if chunk size is reached
+                                                        chunkFolder = workingFolder.Add(
+                                                            (counter / ItemsPerFolder) + 1 + "", folderTemplate);
+                                                    }
+                                                    else
+                                                    {
+                                                        // get the existing chunk folder based on counter
+                                                        chunkFolder =
+                                                            workingFolder.Children[
+                                                                (counter / ItemsPerFolder + 1).ToString()];
                                                     }
 
                                                     // get name for the new item
@@ -218,24 +247,25 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                     }
 
                                                     // create redirect and set the fields
-                                                    Item redirectItem = currentFolder.Add(name, redirectsTemplate);
-                                                    redirectItem.Editing.BeginEdit();
-                                                    redirectItem["Search URL"] = searchUrl;
-                                                    redirectItem["Redirect URL"] = redirectUrl;
-                                                    redirectItem["Permanent Redirect"] = permanentRedirect;
-                                                    redirectItem.Editing.EndEdit();
+                                                    Item redirectItem = chunkFolder.Add(name, redirectsTemplate);
 
-                                                    counter++;
+                                                    if (redirectItem != null)
+                                                    {
+                                                        redirectItem.Editing.BeginEdit();
+                                                        redirectItem["Search URL"] = searchUrl;
+                                                        redirectItem["Redirect URL"] = redirectUrl;
+                                                        redirectItem["Permanent Redirect"] = permanentRedirect;
+                                                        redirectItem.Editing.EndEdit();
+                                                    }
+
+                                                    counters[subFolder] = ++counter;
                                                 }
                                             }
                                         }
                                     }
                                     catch (Exception ex)
                                     {
-                                        if (ImportRoot != null)
-                                        {
-                                            ImportRoot.Delete();
-                                        }
+                                        ImportRoot?.Delete();
 
                                         ErrorState = true;
                                         Log.Error("UrlMapper: Import :: Unexpected error", ex, this);
@@ -279,7 +309,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
             }
 
         }
-        
+
         #endregion
 
         #region Delete

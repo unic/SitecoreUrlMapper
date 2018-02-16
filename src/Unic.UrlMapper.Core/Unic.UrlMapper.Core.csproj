@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Indexing\Fields\BaseTemplatesComputedField.cs" />
+    <Compile Include="Indexing\Fields\RedirectUrlLowerCaseUntokenizedField.cs" />
     <Compile Include="Indexing\Fields\SearchUrlLowerCaseUntokenizedField.cs" />
+    <Compile Include="Indexing\Fields\LowerCaseUrlFieldBase.cs" />
     <Compile Include="Indexing\RedirectResultItem.cs" />
     <Compile Include="Pipelines\HttpRequest\UrlMapping.cs" />
     <Compile Include="Pipelines\ProcessorBase.cs" />
