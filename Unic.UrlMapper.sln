@@ -26,6 +26,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{F5AF47
 		misc\Docker\install-docker.ps1 = misc\Docker\install-docker.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B6A9F4D5-C972-4D58-ADE9-F210684B4A48}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Changelog.md = docs\Changelog.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{B879E722-8993-420B-9C37-3710A300A95B}"
+	ProjectSection(SolutionItems) = preProject
+		docs\nuget\readme.txt = docs\nuget\readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,9 +61,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{78F1C5E1-D47C-4FBE-B5D8-89D4E42A7592} = {56423376-EDA1-4C89-9E26-78DA92E9612D}
 		{F5AF4796-1487-48DA-8503-C4FC7FA70930} = {DBC354B2-0469-479E-88EB-AF30117865D4}
+		{B879E722-8993-420B-9C37-3710A300A95B} = {B6A9F4D5-C972-4D58-ADE9-F210684B4A48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 		SolutionGuid = {D6A67EFE-93CA-4B6A-A5CB-4A1E011C005B}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

@@ -58,3 +58,11 @@ Solr config
 Misc
 ----
 1)	Don't forget to publish.
+
+Pipeline Processor Filter
+-------------------------
+You can use the allowedSites and restrictedSites child nodes on the HttpRequest processor provided to specify the site context the module should run. 
+To manage multiple sites at once, might add a tenant="mySites" attribute to the sites you would like to manage with one setting and then use:
+	<allowedSites hint="list">
+		<site>mySites</site>
+	</allowedSites>
