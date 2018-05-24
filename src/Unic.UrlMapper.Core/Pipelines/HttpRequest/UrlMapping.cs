@@ -77,8 +77,8 @@
             if (redirect != null)
             {
                 string redirectURL = redirect["Redirect URL"];
-                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.MovedPermanently;
-                HttpContext.Current.Response.RedirectPermanent(redirectURL);
+                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.Redirect;
+                HttpContext.Current.Response.Redirect(redirectURL);
 
                 Sitecore.Diagnostics.Log.Info("UrlMapper: UrlMapping: Redirect " + searchURL + " to " + redirectURL + ".", this);
             }
