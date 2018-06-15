@@ -3,6 +3,7 @@
 ## 8.5
 * Add support for specifying `isPermanent` in import .csv on entry level. This value can either be `false`, `true` or empty. `true` and `false` values have higher priority than the checkbox in the import dialog.
 * Add `mongo` to docker-compose. The instance is mapped to port `12984`
+* If the target url cannot be resolved or is empty, the processor will now be aborted instead of trying to redirect.
 
 ## 8.4
 
