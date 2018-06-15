@@ -13,5 +13,9 @@ services:
       - urlmapper
       - /mycores
     restart: "always"
+  mongo:
+    image: mongo:3.4
+    ports:
+     - "12984:27017"
 volumes:
   solr-data:

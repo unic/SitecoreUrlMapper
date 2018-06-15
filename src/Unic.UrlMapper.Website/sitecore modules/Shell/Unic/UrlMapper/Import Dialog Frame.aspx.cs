@@ -25,8 +25,6 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
         private int ErrorCode = 0;
         private string IsoNow = Sitecore.DateUtil.IsoNow;
         private Item ImportRoot = null;
-        
-        #region Configuration
 
         /// <summary>
         /// Item contains the actual Content Database
@@ -47,10 +45,6 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
         /// Item contains the template Item of a Redirect
         /// </summary>
         private TemplateItem redirectsTemplate;
-
-        #endregion
-
-        #region Initialize
 
         /// <summary>
         /// Configure the Configuratione Variables in Constructor
@@ -137,9 +131,6 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                 }
             }
         }
-        #endregion
-
-        #region Import
 
         /// <summary>
         /// Import Data from CSV
@@ -175,27 +166,38 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                         Item chunkFolder = null;
                                         Item subFolderItem = null;
 
-                                        string permanentRedirect = "0";
+                                        string isPermanentRedirect = "0";
 
                                         //Set value for permanent Redirect or not
                                         if (Request.Form["PermanentRedirect"] == "1" && !ErrorState)
                                         {
-                                            permanentRedirect = "1";
+                                            isPermanentRedirect = "1";
                                         }
 
                                         var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
                                             string[] values = line.Split(';');
-                                            if (values != null && values.Length >= 3)
+                                            if (values.Length >= 3)
                                             {
                                                 string itemName = values[0].Trim();
                                                 string searchUrl = values[1].Trim();
                                                 string redirectUrl = values[2].Trim();
                                                 string subFolder = string.Empty;
+                                                var rowIsPermanentRedirect = isPermanentRedirect;
                                                 if (values.Length >= 4)
                                                 {
                                                     subFolder = values[3].Trim();
+                                                }
+
+                                                if (values.Length >= 5)
+                                                {
+                                                    var isPermanentValue = values[4];
+                                                    if (!string.IsNullOrWhiteSpace(isPermanentValue)
+                                                        && bool.TryParse(isPermanentValue, out var isPermanent))
+                                                    {
+                                                        rowIsPermanentRedirect = isPermanent ? "1" : "0";
+                                                    }
                                                 }
 
                                                 // check the two values for old and new url
@@ -254,7 +256,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         redirectItem.Editing.BeginEdit();
                                                         redirectItem["Search URL"] = searchUrl;
                                                         redirectItem["Redirect URL"] = redirectUrl;
-                                                        redirectItem["Permanent Redirect"] = permanentRedirect;
+                                                        redirectItem["Permanent Redirect"] = rowIsPermanentRedirect;
                                                         redirectItem.Editing.EndEdit();
                                                     }
 
@@ -310,10 +312,6 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
 
         }
 
-        #endregion
-
-        #region Delete
-
         /// <summary>
         /// Delete old Imports
         /// </summary>
@@ -350,10 +348,6 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
             }
         }
 
-        #endregion
-
-        #region publication
-
         /// <summary>
         /// Async Publication of all Items from Redirect root Folder
         /// </summary>
@@ -378,7 +372,5 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                 }
             }
         }
-
-        #endregion
     }
 }
