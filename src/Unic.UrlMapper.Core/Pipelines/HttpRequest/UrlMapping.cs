@@ -116,6 +116,12 @@
             if (redirectItem != null)
             {
                 var redirectUrl = redirectItem.RedirectUrlLowerCaseUntokenized;
+                if (string.IsNullOrWhiteSpace(redirectUrl))
+                {
+                    Sitecore.Diagnostics.Log.Error(
+                        $"UrlMapper: Redirect from {searchUrl} will be aborted since the target url is empty.", this);
+                    return;
+                }
 
                 var statusCode = redirectItem.IsPermanentRedirect
                     ? HttpStatusCode.MovedPermanently
