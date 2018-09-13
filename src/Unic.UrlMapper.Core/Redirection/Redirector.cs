@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -7,6 +8,7 @@ using Sitecore.Configuration;
 using Sitecore.ContentSearch;
 using Sitecore.ContentSearch.Linq;
 using Sitecore.Data;
+using Sitecore.Diagnostics;
 using Sitecore.Web;
 using Unic.UrlMapper.Core.Indexing;
 
@@ -17,19 +19,24 @@ namespace Unic.UrlMapper.Core.Redirection
     {
         public virtual void CheckAndPerformRedirect()
         {
+            if (Context.Item != null || Context.Site == null || Context.Database == null) return;
+
             var httpContext = HttpContext.Current;
             var rawUrl = httpContext.Request.RawUrl;
 
-            if (this.HasPerformedCheckDuringRequest(httpContext))
+            if (HasPerformedCheckDuringRequest(httpContext))
             {
-                Sitecore.Diagnostics.Log.Debug($"UrlMapper: Check for {rawUrl} has already been performed during request. Subsequent check will be skipped", this);
+                Log.Debug(
+                    $"UrlMapper: Check for {rawUrl} has already been performed during request. Subsequent check will be skipped",
+                    this);
                 return;
             }
-            
+
             var requestUri = rawUrl.Split('?')[0];
 
             var filePath = httpContext.Request.FilePath;
-            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(httpContext.Server.MapPath(filePath))))
+            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) ||
+                filePath == requestUri && File.Exists(httpContext.Server.MapPath(filePath)))
             {
                 return;
             }
@@ -40,27 +47,27 @@ namespace Unic.UrlMapper.Core.Redirection
 
             if (!ID.TryParse(redirectRootIdSetting, out var redirectRootId))
             {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
+                Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
                 return;
             }
 
             if (!ID.TryParse(redirectItemSetting, out var redirectItemTemplateId))
             {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
+                Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
                 return;
             }
 
             var searchUrl = WebUtil.GetFullUrl(rawUrl);
             searchUrl = new Uri(searchUrl).ToString().ToLower();
 
-            Sitecore.Diagnostics.Log.Info("UrlMapper: Search URL: " + searchUrl + ".", this);
+            Log.Info("UrlMapper: Search URL: " + searchUrl + ".", this);
 
             var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
             if (searchUrlEncode == null) return;
 
             searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
 
-            this.RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode, httpContext);
+            RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode, httpContext);
         }
 
         protected virtual bool HasPerformedCheckDuringRequest(HttpContext httpContext)
@@ -75,14 +82,15 @@ namespace Unic.UrlMapper.Core.Redirection
             return false;
         }
 
-        protected virtual void RedirectUsingContentSearch(ID redirectRootId, ID redirectItemTemplateId, string searchUrl,
+        protected virtual void RedirectUsingContentSearch(ID redirectRootId, ID redirectItemTemplateId,
+            string searchUrl,
             string searchUrlEncode, HttpContext httpContext)
         {
             RedirectResultItem redirectItem = null;
             var indexName = Settings.GetSetting("UrlMapper.IndexName");
             if (string.IsNullOrWhiteSpace(indexName))
             {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: No index specified.", this);
+                Log.Info($"UrlMapper: No index specified.", this);
                 return;
             }
 
@@ -92,7 +100,9 @@ namespace Unic.UrlMapper.Core.Redirection
                 {
                     var query = context.GetQueryable<RedirectResultItem>()
                         .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
-                        .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId.Guid) || resultItem.TemplateId == redirectItemTemplateId)
+                        .Filter(resultItem =>
+                            resultItem.BaseTemplates.Contains(redirectItemTemplateId.Guid) ||
+                            resultItem.TemplateId == redirectItemTemplateId)
                         .Filter(
                             resultItem =>
                                 resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
@@ -104,7 +114,7 @@ namespace Unic.UrlMapper.Core.Redirection
             }
             catch (Exception e)
             {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to query Index {indexName}", this);
+                Log.Info($"UrlMapper: Failed to query Index {indexName}", this);
                 return;
             }
 
@@ -113,7 +123,7 @@ namespace Unic.UrlMapper.Core.Redirection
                 var redirectUrl = redirectItem.RedirectUrlLowerCaseUntokenized;
                 if (string.IsNullOrWhiteSpace(redirectUrl))
                 {
-                    Sitecore.Diagnostics.Log.Error(
+                    Log.Error(
                         $"UrlMapper: Redirect from {searchUrl} will be aborted since the target url is empty.", this);
                     return;
                 }
@@ -122,22 +132,19 @@ namespace Unic.UrlMapper.Core.Redirection
                     ? HttpStatusCode.MovedPermanently
                     : HttpStatusCode.Redirect;
 
-                httpContext.Response.StatusCode = (int)statusCode;
-                Sitecore.Diagnostics.Log.Info(
-                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {httpContext.Response.StatusCode}).", this);
+                httpContext.Response.StatusCode = (int) statusCode;
+                Log.Info(
+                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {httpContext.Response.StatusCode}).",
+                    this);
 
                 if (statusCode == HttpStatusCode.MovedPermanently)
-                {
                     httpContext.Response.RedirectPermanent(redirectUrl);
-                }
                 else
-                {
                     httpContext.Response.Redirect(redirectUrl);
-                }
             }
             else
             {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: No redirect found for {searchUrl}", this);
+                Log.Info($"UrlMapper: No redirect found for {searchUrl}", this);
             }
         }
     }
