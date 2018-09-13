@@ -17,12 +17,18 @@ namespace Unic.UrlMapper.Core.Redirection
     {
         public virtual void CheckAndPerformRedirect()
         {
-            var rawUrl = HttpContext.Current.Request.RawUrl;
+            var httpContext = HttpContext.Current;
+            var rawUrl = httpContext.Request.RawUrl;
 
+            if (this.HasPerformedCheckDuringRequest(httpContext))
+            {
+                Sitecore.Diagnostics.Log.Debug($"UrlMapper: Check for {rawUrl} has already been performed during request. Subsequent check will be skipped", this);
+            }
+            
             var requestUri = rawUrl.Split('?')[0];
 
-            var filePath = HttpContext.Current.Request.FilePath;
-            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(HttpContext.Current.Server.MapPath(filePath))))
+            var filePath = httpContext.Request.FilePath;
+            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(httpContext.Server.MapPath(filePath))))
             {
                 return;
             }
@@ -49,13 +55,27 @@ namespace Unic.UrlMapper.Core.Redirection
             Sitecore.Diagnostics.Log.Info("UrlMapper: Search URL: " + searchUrl + ".", this);
 
             var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
+            if (searchUrlEncode == null) return;
+
             searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
 
-            this.RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode);
+            this.RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode, httpContext);
+        }
+
+        protected virtual bool HasPerformedCheckDuringRequest(HttpContext httpContext)
+        {
+            const string key = "UrlMapperCheckPerformed";
+            var existingValue = httpContext.Items[key];
+
+            if (existingValue != null) return true;
+
+            httpContext.Items[key] = true;
+
+            return false;
         }
 
         protected virtual void RedirectUsingContentSearch(ID redirectRootId, ID redirectItemTemplateId, string searchUrl,
-            string searchUrlEncode)
+            string searchUrlEncode, HttpContext httpContext)
         {
             RedirectResultItem redirectItem = null;
             var indexName = Settings.GetSetting("UrlMapper.IndexName");
@@ -101,17 +121,17 @@ namespace Unic.UrlMapper.Core.Redirection
                     ? HttpStatusCode.MovedPermanently
                     : HttpStatusCode.Redirect;
 
-                HttpContext.Current.Response.StatusCode = (int)statusCode;
+                httpContext.Response.StatusCode = (int)statusCode;
                 Sitecore.Diagnostics.Log.Info(
-                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {HttpContext.Current.Response.StatusCode}).", this);
+                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {httpContext.Response.StatusCode}).", this);
 
                 if (statusCode == HttpStatusCode.MovedPermanently)
                 {
-                    HttpContext.Current.Response.RedirectPermanent(redirectUrl);
+                    httpContext.Response.RedirectPermanent(redirectUrl);
                 }
                 else
                 {
-                    HttpContext.Current.Response.Redirect(redirectUrl);
+                    httpContext.Response.Redirect(redirectUrl);
                 }
             }
             else
