@@ -76,6 +76,7 @@
     <Compile Include="Pipelines\HttpRequest\UrlMapping.cs" />
     <Compile Include="Pipelines\ProcessorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Redirection\Redirector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
