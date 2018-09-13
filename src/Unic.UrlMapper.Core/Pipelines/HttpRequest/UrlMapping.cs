@@ -1,149 +1,16 @@
-﻿namespace Unic.UrlMapper.Core.Pipelines.HttpRequest
-{
-    using System;
-    using System.Linq;
-    using System.Net;
-    using System.Web;
-    using Sitecore.Configuration;
-    using Sitecore.Pipelines.HttpRequest;
-    using Sitecore.Web;
-    using Sitecore.ContentSearch;
-    using Sitecore.ContentSearch.Linq;
-    using Sitecore.Data;
-    using Unic.UrlMapper.Core.Indexing;
+﻿
+using Unic.UrlMapper.Core.Redirection;
 
-    /// <summary>
-    /// This class is called after the item resolver and maps old urls to new one.
-    /// If a page is not found (got a 404) the class searches for available redirects under /sitecore/content/configuration/redirecs
-    /// and make a permanent redirect to the new url if the old url was found. The root folder of the redirects and the template id
-    /// shoudl be configured in the web.config.
-    /// <br/><br/>
-    /// This pipeline extension should be configure in the included file as follow:
-    /// 
-    /// <code>
-    /// &lt;pipelines&gt;
-    ///	    &lt;httpRequestBegin&gt;
-    ///		    &lt;processor patch:after="processor[@type='Sitecore.Pipelines.HttpRequest.ItemResolver, Sitecore.Kernel']"
-    ///		        type="Unic.UrlMapper.Core.Pipelines.HttpRequest.UrlMapping, Unic.SitecoreCMS.Modules.UrlMapper" /&gt;
-    ///     &lt;/httpRequestBegin&gt;
-    /// &lt;/pipelines&gt;
-    /// </code>
-    /// </summary>
+namespace Unic.UrlMapper.Core.Pipelines.HttpRequest
+{
+    using Sitecore;
+    using Sitecore.Pipelines.HttpRequest;
+
+    [UsedImplicitly]
     public class UrlMapping : ProcessorBase<HttpRequestArgs>
     {
-        /// <summary>
-        /// Check if there is matching redirect item available under the configured root path and then make a permanent redirect
-        /// to the new url.
-        /// </summary>
-        /// <param name="args">current httprequest arguments</param>
-        protected override void Execute(HttpRequestArgs args)
-        {
-            var rawUrl = WebUtil.GetRawUrl();
-            if (Sitecore.Context.Item != null || Sitecore.Context.Site == null || Sitecore.Context.Database == null || rawUrl == null)
-            {
-                return;
-            }
+        protected override void Execute(HttpRequestArgs args) => this.GetRedirector()?.CheckAndPerformRedirect();
 
-            var requestUri = rawUrl.Split(new[] { '?' })[0];
-
-            var filePath = Sitecore.Context.Request.FilePath.ToLower();
-            if (string.IsNullOrEmpty(filePath) || WebUtil.IsExternalUrl(filePath) || (filePath == requestUri && System.IO.File.Exists(HttpContext.Current.Server.MapPath(filePath))))
-            {
-                return;
-            }
-
-            // load configuration values
-            var redirectRootIdSetting = Settings.GetSetting("UrlMapper.RootFolder");
-            var redirectItemSetting = Settings.GetSetting("UrlMapper.ItemTemplateId");
-
-            ID redirectRootId;
-            if (!ID.TryParse(redirectRootIdSetting, out redirectRootId))
-            {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
-                return;
-            }
-            ID redirectItemTemplateId;
-            if (!ID.TryParse(redirectItemSetting, out redirectItemTemplateId))
-            {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to parse {nameof(redirectRootIdSetting)} {redirectRootIdSetting}", this);
-                return;
-            }
-
-            var searchUrl = WebUtil.GetFullUrl(WebUtil.GetRawUrl());
-            searchUrl = new Uri(searchUrl).ToString().ToLower();
-
-            Sitecore.Diagnostics.Log.Info("UrlMapper: Search URL: " + searchUrl + ".", this);
-
-            var searchUrlEncode = HttpUtility.UrlPathEncode(WebUtil.GetFullUrl(WebUtil.GetRawUrl()));
-            searchUrlEncode = new Uri(searchUrlEncode).ToString().ToLower();
-
-            RedirectUsingContentSearch(redirectRootId, redirectItemTemplateId, searchUrl, searchUrlEncode);
-        }
-
-        protected virtual void RedirectUsingContentSearch(ID redirectRootId, ID redirectItemTemplateId, string searchUrl,
-            string searchUrlEncode)
-        {
-            RedirectResultItem redirectItem = null;
-            var indexName = Settings.GetSetting("UrlMapper.IndexName");
-            if (string.IsNullOrWhiteSpace(indexName))
-            {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: No index specified.", this);
-                return;
-            }
-
-            try
-            {
-                using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
-                {
-                    var query = context.GetQueryable<RedirectResultItem>()
-                        .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
-                        .Filter(resultItem => resultItem.BaseTemplates.Contains(redirectItemTemplateId.Guid) || resultItem.TemplateId == redirectItemTemplateId)
-                        .Filter(
-                            resultItem =>
-                                resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
-                                resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode)
-                        .Filter(resultItem => resultItem.IsLatestVersion);
-
-                    redirectItem = query.FirstOrDefault();
-                }
-            }
-            catch (Exception e)
-            {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: Failed to query Index {indexName}", this);
-                return;
-            }
-
-            if (redirectItem != null)
-            {
-                var redirectUrl = redirectItem.RedirectUrlLowerCaseUntokenized;
-                if (string.IsNullOrWhiteSpace(redirectUrl))
-                {
-                    Sitecore.Diagnostics.Log.Error(
-                        $"UrlMapper: Redirect from {searchUrl} will be aborted since the target url is empty.", this);
-                    return;
-                }
-
-                var statusCode = redirectItem.IsPermanentRedirect
-                    ? HttpStatusCode.MovedPermanently
-                    : HttpStatusCode.Redirect;
-
-                HttpContext.Current.Response.StatusCode = (int)statusCode;
-                Sitecore.Diagnostics.Log.Info(
-                    $"UrlMapper: Redirect {searchUrl} to {redirectUrl} (HTTP {HttpContext.Current.Response.StatusCode}).", this);
-
-                if (statusCode == HttpStatusCode.MovedPermanently)
-                {
-                    HttpContext.Current.Response.RedirectPermanent(redirectUrl);
-                }
-                else
-                {
-                    HttpContext.Current.Response.Redirect(redirectUrl);
-                }
-            }
-            else
-            {
-                Sitecore.Diagnostics.Log.Info($"UrlMapper: No redirect found for {searchUrl}", this);
-            }
-        }
+        protected virtual Redirector GetRedirector() => new Redirector();
     }
 }
