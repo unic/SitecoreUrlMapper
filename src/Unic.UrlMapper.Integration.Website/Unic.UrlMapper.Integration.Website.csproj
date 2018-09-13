@@ -94,6 +94,7 @@
     </Reference>
     <Reference Include="Sitecore.ContentSearch.SolrProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Sitecore.Support.Solr.160211.1.0.0\lib\Sitecore.ContentSearch.SolrProvider.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.SolrProvider.AutoFacIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Sitecore.Support.Solr.160211.1.0.0\lib\Sitecore.ContentSearch.SolrProvider.AutoFacIntegration.dll</HintPath>
