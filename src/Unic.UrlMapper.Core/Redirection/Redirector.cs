@@ -23,6 +23,7 @@ namespace Unic.UrlMapper.Core.Redirection
             if (this.HasPerformedCheckDuringRequest(httpContext))
             {
                 Sitecore.Diagnostics.Log.Debug($"UrlMapper: Check for {rawUrl} has already been performed during request. Subsequent check will be skipped", this);
+                return;
             }
             
             var requestUri = rawUrl.Split('?')[0];
