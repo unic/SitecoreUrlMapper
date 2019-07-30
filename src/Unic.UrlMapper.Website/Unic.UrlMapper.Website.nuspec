@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Unic.UrlMapper</id>
-    <version>0.0.0</version>
+    <version>$version$</version>
     <authors>Unic</authors>
     <owners>Unic</owners>
     <projectUrl>https://me.unic.com/display/BULLWCMS/Url+Mapper</projectUrl>
