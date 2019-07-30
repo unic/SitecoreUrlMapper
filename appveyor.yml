@@ -17,3 +17,7 @@ after_build:
   - cmd: ECHO nuget pack .\src\Unic.UrlMapper.Core\Unic.UrlMapper.Core.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
   - cmd: nuget pack .\src\Unic.UrlMapper.Core\Unic.UrlMapper.Core.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
   - cmd: appveyor PushArtifact "Unic.UrlMapper.Core.%GitVersion_NuGetVersion%.nupkg"
+  
+  - cmd: ECHO nuget pack .\src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: nuget pack .\src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+  - cmd: appveyor PushArtifact "Unic.UrlMapper.Website.%GitVersion_NuGetVersion%.nupkg"
