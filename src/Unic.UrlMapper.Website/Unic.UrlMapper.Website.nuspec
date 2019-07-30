@@ -13,7 +13,7 @@
     <copyright>Copyright 2015 Unic AG</copyright>
     <tags>Sitecore Unic Url Mapper</tags>
     <dependencies>
-        <dependency id="Unic.UrlMapper.Core" version="$NuGetVersion$" />
+        <dependency id="Unic.UrlMapper.Core" version="%APPVEYOR_BUILD_VERSION%" />
     </dependencies>
   </metadata>
    <files>
