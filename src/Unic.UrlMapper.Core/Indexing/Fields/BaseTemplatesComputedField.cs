@@ -1,9 +1,10 @@
-﻿namespace Unic.UrlMapper.Core.Indexing.Fields
+﻿using Unic.UrlMapper.Core.Extensions;
+
+namespace Unic.UrlMapper.Core.Indexing.Fields
 {
     using Sitecore.ContentSearch;
     using Sitecore.ContentSearch.ComputedFields;
     using Sitecore.Data.Items;
-    using Unic.Framework.Core.Items.Extensions;
 
     public class BaseTemplatesComputedField : AbstractComputedIndexField
     {
