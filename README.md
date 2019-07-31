@@ -9,6 +9,10 @@ This URL mapping module for Sitecore allows authors to define redirects.
 
 ## Installation
 
+```powershell
+Install-Package Unic.UrlMapper
+```
+
 Please follow the instructions in the README.txt of the nuget package. Please note that UrlMapper uses a custom SolR index.
 
 ## Usage
