@@ -3,6 +3,7 @@
   <metadata>
     <id>Unic.UrlMapper.Core</id>
     <version>$version$</version>
+    <iconUrl>https://raw.githubusercontent.com/unic/unic/master/unic_nuget.png</iconUrl>
     <authors>Unic</authors>
     <owners>Unic</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
