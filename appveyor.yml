@@ -30,8 +30,4 @@ deploy:
   - provider: Environment
     name: NuGet.org
     on:
-      branch: master
-  - provider: Environment
-    name: NuGet.org
-    on:
       appveyor_repo_tag: true
