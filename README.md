@@ -1,6 +1,6 @@
 # UrlMapper
 
-[![Build status](https://ci.appveyor.com/api/projects/status/txgis3q0lqnnq818/branch/master?svg=true)](https://ci.appveyor.com/project/team-unic/sitecoreurlmapper/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/txgis3q0lqnnq818/branch/master?svg=true)](https://ci.appveyor.com/project/team-unic/sitecoreurlmapper/branch/master) ![Nuget](https://img.shields.io/nuget/v/Unic.UrlMapper)
 
 
 ## Feature overview
