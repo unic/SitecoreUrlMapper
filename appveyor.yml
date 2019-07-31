@@ -1,3 +1,7 @@
+environment:
+  NuGetToken:
+    secure: jhODVb/iVko3b4Y9p1tOMP9LeDy6OQEYePDIDT6lfAOgNnJixjJpJBAJj/gtkDLc
+
 install:
   - choco install gitversion.portable -pre -y
 
@@ -21,3 +25,13 @@ after_build:
   - cmd: ECHO nuget pack .\src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
   - cmd: nuget pack .\src\Unic.UrlMapper.Website\Unic.UrlMapper.Website.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
   - cmd: appveyor PushArtifact "Unic.UrlMapper.%GitVersion_NuGetVersion%.nupkg"
+
+deploy:
+  - provider: Environment
+    name: NuGet.org
+    on:
+      branch: master
+  - provider: Environment
+    name: NuGet.org
+    on:
+      appveyor_repo_tag: true
