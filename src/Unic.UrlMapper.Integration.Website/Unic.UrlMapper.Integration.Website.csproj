@@ -103,7 +103,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\license.xml" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
