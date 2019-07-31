@@ -1,5 +1,8 @@
 # UrlMapper
 
+[![Build status](https://ci.appveyor.com/api/projects/status/txgis3q0lqnnq818/branch/master?svg=true)](https://ci.appveyor.com/project/team-unic/sitecoreurlmapper/branch/master)
+
+
 ## Feature overview
 
 This URL mapping module for Sitecore allows authors to define redirects. The module also features the possibility to import redirects from CSV files.
