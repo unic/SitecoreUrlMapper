@@ -5,7 +5,7 @@
 
 ## Feature overview
 
-This URL mapping module for Sitecore allows authors to define redirects. The module also features the possibility to import redirects from CSV files.
+This URL mapping module for Sitecore allows authors to define redirects.
 
 ## Installation
 
