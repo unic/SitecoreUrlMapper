@@ -121,6 +121,7 @@
     <Content Include="App_Config\Include\01_modules_solr-author\Unic.UrlMapper.Index.Master.config" />
     <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.Index.Web.config" />
     <Content Include="App_Config\Include\01_modules_solr\Unic.UrlMapper.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\Unic.UrlMapper.RuleBased.config.disabled" />
     <None Include="Properties\PublishProfiles\UrlMapper.pubxml" />
   </ItemGroup>
   <ItemGroup>

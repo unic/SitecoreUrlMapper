@@ -1,0 +1,120 @@
+﻿<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/" xmlns:set="http://www.sitecore.net/xmlconfig/set/" xmlns:search="http://www.sitecore.net/xmlconfig/search/" xmlns:role="http://www.sitecore.net/xmlconfig/role/">
+  <sitecore>
+
+    <!-- Pipelines -->
+    <pipelines>
+      <httpRequestBegin>
+        <processor patch:after="processor[@type='Sitecore.Pipelines.HttpRequest.ItemResolver, Sitecore.Kernel']"
+                   type="Unic.UrlMapper.Core.Pipelines.HttpRequest.UrlMapping, Unic.UrlMapper.Core" />
+      </httpRequestBegin>
+    </pipelines>
+
+    <!-- Commands -->
+    <commands role:require="ContentManagement or Standalone">
+      <command name="urlmapping:openwizard" type="Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper.OpenWizard,Unic.UrlMapper.Website" />
+    </commands>
+
+    <!-- Settings -->
+    <settings>
+      <setting name="UrlMapper.CsvHeaders"  set:value="Name;SearchUrl;RedirectUrl;SubFolder;IsPermanent" />
+      <setting name="UrlMapper.FolderTemplateId" set:value="{27A7F5CD-E5BA-4F43-85DB-9368FBEC3BE2}" />
+      <setting name="UrlMapper.ItemTemplateId" set:value="{5772872C-D96C-4B09-90D5-D80BF79B2F17}" />
+      <!-- The following settings must be set by the implementing solution. See urlmapper readme for more information. -->
+      <!--<setting name="UrlMapper.RootFolder"  set:value="{110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9}" />-->
+      <!--<setting name="UrlMapper.IndexName" set:value="urlmapper_master" />-->
+      <!--<setting name="UrlMapper.Domain.Author" set:value="http://urlmapper.local" />-->
+      <!--<setting name="UrlMapper.Domain.Delivery" set:value="http://urlmapper.local" />-->
+    </settings>
+
+    <!-- Content Search -->
+    <contentSearch>
+      <indexConfigurations>
+        <urlMapperSolrIndexConfiguration ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration" search:require="solr">
+          <fieldMap ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration/fieldMap">
+            <fieldNames hint="raw:AddFieldByFieldName">
+              <field fieldName="redirect_url" returnType="string" />
+              <field fieldName="permanent_redirect" returnType="bool" />
+            </fieldNames>
+          </fieldMap>
+          <documentOptions ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration/documentOptions">
+            <fields hint="raw:AddComputedIndexField">
+              <field fieldName="search_url_lowercase_untokenized" returnType="string">
+                Unic.UrlMapper.Core.Indexing.Fields.SearchUrlLowerCaseUntokenizedField, Unic.UrlMapper.Core
+              </field>
+              <field fieldName="redirect_url_lowercase_untokenized" returnType="string">
+                Unic.UrlMapper.Core.Indexing.Fields.RedirectUrlLowerCaseUntokenizedField, Unic.UrlMapper.Core
+              </field>
+            </fields>
+          </documentOptions>
+        </urlMapperSolrIndexConfiguration>
+      </indexConfigurations>
+
+      <configuration>
+        <indexes>
+          <index id="urlmapper_web" type="Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider" search:require="Solr">
+            <param desc="name">$(id)</param>
+            <param desc="core">$(id)</param>
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
+            <configuration ref="contentSearch/indexConfigurations/urlMapperSolrIndexConfiguration" />
+            <strategies hint="list:AddStrategy">
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/onPublishEndAsync" />
+            </strategies>
+            <locations hint="list:AddCrawler">
+              <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
+                <Database>web</Database>
+                <Root>/sitecore</Root>
+              </crawler>
+            </locations>
+            <enableItemLanguageFallback>false</enableItemLanguageFallback>
+            <enableFieldLanguageFallback>false</enableFieldLanguageFallback>
+          </index>
+
+          <index id="urlmapper_master" type="Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider" role:require="ContentManagement or Standalone" search:require="Solr">
+            <param desc="name">$(id)</param>
+            <param desc="core">$(id)</param>
+            <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
+            <configuration ref="contentSearch/indexConfigurations/urlMapperSolrIndexConfiguration" />
+            <strategies hint="list:AddStrategy">
+              <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/syncMaster" />
+            </strategies>
+            <locations hint="list:AddCrawler">
+              <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
+                <Database>master</Database>
+                <Root>/sitecore</Root>
+              </crawler>
+            </locations>
+            <enableItemLanguageFallback>false</enableItemLanguageFallback>
+            <enableFieldLanguageFallback>false</enableFieldLanguageFallback>
+          </index>
+        </indexes>
+      </configuration>
+    </contentSearch>
+
+    <!-- Unicorn -->
+    <unicorn role:require="ContentManagement or Standalone">
+      <configurations>
+        <configuration name="Unic.Modules.UrlMapper">
+          <targetDataStore physicalRootPath="$(sourceFolder)\serialization\modules\urlmapper" type="Rainbow.Storage.SerializationFileSystemDataStore, Rainbow" useDataCache="false" singleInstance="true" />
+          <predicate type="Unicorn.Predicates.SerializationPresetPredicate, Unicorn" singleInstance="true">
+
+            <include name="Templates" database="master" path="/sitecore/templates/UrlMapper" />
+            <include name="StartMenu" database="core" path="/sitecore/content/Documents and settings/All users/Start menu/Programs/Redirect Importer" />
+
+          </predicate>
+        </configuration>
+
+        <configuration name="Unic.Modules.UrlMapper.Roles">
+          <roleDataStore physicalRootPath="$(sourceFolder)\serialization\roles\urlmapper" type="Unicorn.Roles.Data.FilesystemRoleDataStore, Unicorn.Roles" singleInstance="true"/>
+          <predicate type="Unicorn.Roles.Predicates.EmptyPredicate, Unicorn.Roles" singleInstance="true" />
+
+          <rolePredicate type="Unicorn.Roles.RolePredicates.ConfigurationRolePredicate, Unicorn.Roles" singleInstance="true">
+            <include domain="sitecore" pattern="^Redirect Importer$" />
+          </rolePredicate>
+
+          <roleSyncConfiguration removeOrphans="true" type="Unicorn.Roles.Loader.DefaultRoleSyncConfiguration, Unicorn.Roles" singleInstance="true" />
+        </configuration>
+      </configurations>
+    </unicorn>
+
+  </sitecore>
+</configuration>
