@@ -69,6 +69,13 @@
           <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
+            <input id="IgnoreQueryString" name="IgnoreQueryString" type="checkbox" value="1" />
+            <Literal Text="Import Redirects with Ignore Query String"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border Padding="0 0 2 0">
             <input id="DeleteImport" name="DeleteImport" type="checkbox" value="1" />
             <Literal Text="Delete all Imports"/>
           </Border>

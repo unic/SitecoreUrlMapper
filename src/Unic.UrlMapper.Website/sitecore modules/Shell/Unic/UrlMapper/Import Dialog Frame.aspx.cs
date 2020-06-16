@@ -174,6 +174,13 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                             isPermanentRedirect = "1";
                                         }
 
+                                        var ignoreQueryString = "0";
+                                        //Set value for ignore query string or not
+                                        if (Request.Form["IgnoreQueryString"] == "1" && !ErrorState)
+                                        {
+                                            ignoreQueryString = "1";
+                                        }
+                                        
                                         var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
@@ -185,6 +192,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 string redirectUrl = values[2].Trim();
                                                 string subFolder = string.Empty;
                                                 var rowIsPermanentRedirect = isPermanentRedirect;
+                                                var rowIgnoreQueryString = ignoreQueryString;
                                                 if (values.Length >= 4)
                                                 {
                                                     subFolder = values[3].Trim();
@@ -197,6 +205,16 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         && bool.TryParse(isPermanentValue, out var isPermanent))
                                                     {
                                                         rowIsPermanentRedirect = isPermanent ? "1" : "0";
+                                                    }
+                                                }
+
+                                                if (values.Length >= 6)
+                                                {
+                                                    var isIgnoreQueryStringValue = values[5];
+                                                    if (!string.IsNullOrWhiteSpace(isIgnoreQueryStringValue)
+                                                        && bool.TryParse(isIgnoreQueryStringValue, out var isIgnoreQueryString))
+                                                    {
+                                                        rowIgnoreQueryString = isIgnoreQueryString ? "1" : "0";
                                                     }
                                                 }
 
@@ -257,6 +275,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         redirectItem["Search URL"] = searchUrl;
                                                         redirectItem["Redirect URL"] = redirectUrl;
                                                         redirectItem["Permanent Redirect"] = rowIsPermanentRedirect;
+                                                        redirectItem["Ignore Query String"] = rowIgnoreQueryString;
                                                         redirectItem.Editing.EndEdit();
                                                     }
 

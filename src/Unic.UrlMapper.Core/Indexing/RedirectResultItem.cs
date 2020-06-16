@@ -24,5 +24,8 @@
 
         [IndexField("permanent_redirect")]
         public bool IsPermanentRedirect { get; set; }
+
+        [IndexField("ignore_query_string")]
+        public bool IgnoreQueryString { get; set; }
     }
 }

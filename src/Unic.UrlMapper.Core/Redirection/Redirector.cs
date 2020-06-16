@@ -98,6 +98,8 @@ namespace Unic.UrlMapper.Core.Redirection
             {
                 using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
                 {
+                    var searchUrlWithoutQueryString = searchUrl.Split('?')[0];
+                    var searchUrlWithoutQueryStringEncode = searchUrlEncode.Split('?')[0];
                     var query = context.GetQueryable<RedirectResultItem>()
                         .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
                         .Filter(resultItem =>
@@ -106,7 +108,10 @@ namespace Unic.UrlMapper.Core.Redirection
                         .Filter(
                             resultItem =>
                                 resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
-                                resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode)
+                                resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode ||
+                                resultItem.IgnoreQueryString && 
+                                (resultItem.SearchUrlLowerCaseUntokenized == searchUrlWithoutQueryString || 
+                                 resultItem.SearchUrlLowerCaseUntokenized == searchUrlWithoutQueryStringEncode))
                         .Filter(resultItem => resultItem.IsLatestVersion);
 
                     redirectItem = query.FirstOrDefault();
