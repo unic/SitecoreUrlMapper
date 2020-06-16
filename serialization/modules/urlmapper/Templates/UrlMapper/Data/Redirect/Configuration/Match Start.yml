@@ -2,7 +2,7 @@
 ID: "170e8963-2225-4e9a-a0e4-ec8d031be919"
 Parent: "a75ed3af-c21e-4ea4-849d-a4056b88ab96"
 Template: "455a3e98-a627-4b40-8035-e683a0331ac7"
-Path: /sitecore/templates/UrlMapper/Data/Redirect/Configuration/Ignore Query String
+Path: /sitecore/templates/UrlMapper/Data/Redirect/Configuration/Match Start
 DB: master
 SharedFields:
 - ID: "ab162cc0-dc80-4abf-8871-998ee5d7ba32"
@@ -20,10 +20,10 @@ Languages:
   Fields:
   - ID: "577f1689-7de4-4ad2-a15f-7fdc1759285f"
     Hint: __Long description
-    Value: Matching of the Request URL agains Search URL is done without eventual Query String Parameters
+    Value: Instead of the default behavior (Request URL has to match Search URL) with this option enabled the Request URL only has to start with Search URL and can have any additional path segments and/or query string.
   - ID: "9541e67d-ce8c-4225-803d-33f7f29f09ef"
     Hint: __Short description
-    Value: Request URL is matched without Query String
+    Value: Request URL is matched to start with Search URL
   Versions:
   - Version: 1
     Fields:

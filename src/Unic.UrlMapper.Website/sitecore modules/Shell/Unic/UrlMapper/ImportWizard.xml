@@ -69,15 +69,15 @@
           <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
-            <input id="IgnoreQueryString" name="IgnoreQueryString" type="checkbox" value="1" />
-            <Literal Text="Import Redirects with Ignore Query String"/>
+            <input id="MatchStart" name="MatchStart" type="checkbox" value="1" />
+            <Literal Text="Import Redirects with Match Start enabled"/>
           </Border>
           
           <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
-            <input id="TransferQueryString" name="TransferQueryString" type="checkbox" value="1" checked="checked" />
-            <Literal Text="Import Redirects with Transfer Query String"/>
+            <input id="IgnoreSuffix" name="IgnoreSuffix" type="checkbox" value="1" />
+            <Literal Text="Import Redirects with Ignore Suffix enabled"/>
           </Border>
           
           <Space Height="16"/>

@@ -1,4 +1,0 @@
-Name;SearchUrl;RedirectUrl;SubFolder;IsPermanent;IgnoreQueryString;TransferQueryString
-Google;http://{domain}/sample-redirects/google;https://google.com;samples;true;true;true
-Amazon;http://{domain}/sample-redirects/amazon;https://amazon.com;samples;false;true;false
-Uber;http://{domain}/sample-redirects/uber;https://amazon.com;;;

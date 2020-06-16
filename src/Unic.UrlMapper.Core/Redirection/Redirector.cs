@@ -94,8 +94,6 @@ namespace Unic.UrlMapper.Core.Redirection
                 return;
             }
 
-            var searchUrlWithoutQueryString = searchUrl.Split('?')[0];
-            var searchUrlWithoutQueryStringEncode = searchUrlEncode.Split('?')[0];
             try
             {
                 using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
@@ -105,16 +103,26 @@ namespace Unic.UrlMapper.Core.Redirection
                         .Filter(resultItem =>
                             resultItem.BaseTemplates.Contains(redirectItemTemplateId.Guid) ||
                             resultItem.TemplateId == redirectItemTemplateId)
-                        .Filter(
-                            resultItem =>
-                                resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
-                                resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode ||
-                                resultItem.IgnoreQueryString && 
-                                (resultItem.SearchUrlLowerCaseUntokenized == searchUrlWithoutQueryString || 
-                                 resultItem.SearchUrlLowerCaseUntokenized == searchUrlWithoutQueryStringEncode))
                         .Filter(resultItem => resultItem.IsLatestVersion);
 
-                    redirectItem = query.FirstOrDefault();
+                    // first try to find a redirect item with exact match
+                    redirectItem = query.FirstOrDefault(resultItem =>
+                        resultItem.SearchUrlLowerCaseUntokenized == searchUrl ||
+                        resultItem.SearchUrlLowerCaseUntokenized == searchUrlEncode);
+
+                    // if no exact match was found we get all redirects that match start and take the one with the longest (most specific) search url
+                    if (redirectItem == null)
+                    {
+                        redirectItem = query
+                            .Where(resultItem => resultItem.MatchStart)
+                            .ToList()
+                            .Where(resultItem => searchUrl.StartsWith(resultItem.SearchUrlLowerCaseUntokenized,
+                                                     StringComparison.CurrentCultureIgnoreCase) ||
+                                                 searchUrlEncode.StartsWith(resultItem.SearchUrlLowerCaseUntokenized,
+                                                     StringComparison.CurrentCultureIgnoreCase))
+                            .OrderByDescending(resultItem => resultItem.SearchUrlLowerCaseUntokenized.Length)
+                            .FirstOrDefault();
+                    }
                 }
             }
             catch (Exception e)
@@ -137,10 +145,9 @@ namespace Unic.UrlMapper.Core.Redirection
                     ? HttpStatusCode.MovedPermanently
                     : HttpStatusCode.Redirect;
 
-                if (redirectItem.IgnoreQueryString && redirectItem.TransferQueryString && searchUrl.Length > searchUrlWithoutQueryString.Length + 1)
+                if (redirectItem.MatchStart && !redirectItem.IgnoreSuffix && searchUrl.Length > redirectItem.SearchUrlLowerCaseUntokenized.Length)
                 {
-                    redirectUrl += redirectUrl.Contains("?") ? "&" : "?";
-                    redirectUrl += searchUrl.Substring(searchUrlWithoutQueryString.Length + 1);
+                    redirectUrl += searchUrl.Substring(redirectItem.SearchUrlLowerCaseUntokenized.Length);
                 }
 
                 httpContext.Response.StatusCode = (int) statusCode;

@@ -25,10 +25,10 @@
         [IndexField("permanent_redirect")]
         public bool IsPermanentRedirect { get; set; }
 
-        [IndexField("ignore_query_string")]
-        public bool IgnoreQueryString { get; set; }
+        [IndexField("match_start")]
+        public bool MatchStart { get; set; }
 
-        [IndexField("transfer_query_string")]
-        public bool TransferQueryString { get; set; }
+        [IndexField("ignore_suffix")]
+        public bool IgnoreSuffix { get; set; }
     }
 }
