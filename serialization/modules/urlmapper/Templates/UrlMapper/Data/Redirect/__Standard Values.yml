@@ -5,6 +5,14 @@ Template: "5772872c-d96c-4b09-90d5-d80bf79b2f17"
 Path: /sitecore/templates/UrlMapper/Data/Redirect/__Standard Values
 DB: master
 SharedFields:
+- ID: "170e8963-2225-4e9a-a0e4-ec8d031be919"
+  Hint: Match Start
+  Type: Checkbox
+  Value: 0
+- ID: "36328801-0f63-4bc6-a959-4e39b73d25ce"
+  Hint: Ignore Suffix
+  Type: Checkbox
+  Value: 0
 - ID: "7703238a-40a6-4247-b96a-28da35e8be9c"
   Hint: Permanent Redirect
   Type: Checkbox

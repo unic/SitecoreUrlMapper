@@ -174,6 +174,12 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                             isPermanentRedirect = "1";
                                         }
 
+                                        //Set value for match start
+                                        var matchStart = Request.Form["MatchStart"] == "1" && !ErrorState ? "1" : "0";
+
+                                        //Set value for IgnoreSuffix
+                                        var ignoreSuffix = Request.Form["IgnoreSuffix"] == "1" && !ErrorState ? "1" : "0";
+                                        
                                         var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
@@ -185,6 +191,8 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 string redirectUrl = values[2].Trim();
                                                 string subFolder = string.Empty;
                                                 var rowIsPermanentRedirect = isPermanentRedirect;
+                                                var rowMatchStart = matchStart;
+                                                var rowIgnoreSuffix = ignoreSuffix;
                                                 if (values.Length >= 4)
                                                 {
                                                     subFolder = values[3].Trim();
@@ -197,6 +205,26 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         && bool.TryParse(isPermanentValue, out var isPermanent))
                                                     {
                                                         rowIsPermanentRedirect = isPermanent ? "1" : "0";
+                                                    }
+                                                }
+
+                                                if (values.Length >= 6)
+                                                {
+                                                    var isMatchStartStringValue = values[5];
+                                                    if (!string.IsNullOrWhiteSpace(isMatchStartStringValue)
+                                                        && bool.TryParse(isMatchStartStringValue, out var isMatchStart))
+                                                    {
+                                                        rowMatchStart = isMatchStart ? "1" : "0";
+                                                    }
+                                                }
+
+                                                if (values.Length >= 7)
+                                                {
+                                                    var isIgnoreSuffixStringValue = values[6];
+                                                    if (!string.IsNullOrWhiteSpace(isIgnoreSuffixStringValue)
+                                                        && bool.TryParse(isIgnoreSuffixStringValue, out var isIgnoreSuffix))
+                                                    {
+                                                        rowIgnoreSuffix = isIgnoreSuffix ? "1" : "0";
                                                     }
                                                 }
 
@@ -257,6 +285,8 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         redirectItem["Search URL"] = searchUrl;
                                                         redirectItem["Redirect URL"] = redirectUrl;
                                                         redirectItem["Permanent Redirect"] = rowIsPermanentRedirect;
+                                                        redirectItem["Match Start"] = rowMatchStart;
+                                                        redirectItem["Ignore Suffix"] = rowIgnoreSuffix;
                                                         redirectItem.Editing.EndEdit();
                                                     }
 

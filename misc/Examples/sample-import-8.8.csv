@@ -1,0 +1,4 @@
+Name;SearchUrl;RedirectUrl;SubFolder;IsPermanent;MatchStart;IgnoreSuffix
+Google;http://{domain}/sample-redirects/google;https://google.com;samples;true;true;false
+Amazon;http://{domain}/sample-redirects/amazon;https://amazon.com;samples;false;false;false
+Uber;http://{domain}/sample-redirects/uber;https://amazon.com;;;

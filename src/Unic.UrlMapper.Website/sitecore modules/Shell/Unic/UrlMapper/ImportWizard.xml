@@ -69,6 +69,20 @@
           <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
+            <input id="MatchStart" name="MatchStart" type="checkbox" value="1" />
+            <Literal Text="Import Redirects with Match Start enabled"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border Padding="0 0 2 0">
+            <input id="IgnoreSuffix" name="IgnoreSuffix" type="checkbox" value="1" />
+            <Literal Text="Import Redirects with Ignore Suffix enabled"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border Padding="0 0 2 0">
             <input id="DeleteImport" name="DeleteImport" type="checkbox" value="1" />
             <Literal Text="Delete all Imports"/>
           </Border>

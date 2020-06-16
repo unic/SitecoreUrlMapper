@@ -54,6 +54,11 @@ The project contains a docker-compose file you can use to set up a pre-configure
 
 ## Changelog
 
+### 8.8
+
+* Add possibility to match only start of request URL to allow for dynamic subpaths & query strings
+* Update Import Wizard to support new MatchStart & IgnoreSuffix fields
+
 ### 8.7
 
 * Expose Redirector functionality
