@@ -76,6 +76,13 @@
           <Space Height="16"/>
           
           <Border Padding="0 0 2 0">
+            <input id="TransferQueryString" name="TransferQueryString" type="checkbox" value="1" checked="checked" />
+            <Literal Text="Import Redirects with Transfer Query String"/>
+          </Border>
+          
+          <Space Height="16"/>
+          
+          <Border Padding="0 0 2 0">
             <input id="DeleteImport" name="DeleteImport" type="checkbox" value="1" />
             <Literal Text="Delete all Imports"/>
           </Border>

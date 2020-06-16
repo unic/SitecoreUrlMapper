@@ -27,5 +27,8 @@
 
         [IndexField("ignore_query_string")]
         public bool IgnoreQueryString { get; set; }
+
+        [IndexField("transfer_query_string")]
+        public bool TransferQueryString { get; set; }
     }
 }

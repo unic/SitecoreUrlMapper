@@ -181,6 +181,13 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                             ignoreQueryString = "1";
                                         }
                                         
+                                        var transferQueryString = "1";
+                                        //Set value for transfer query string or not
+                                        if (Request.Form["TransferQueryString"] == "0" && !ErrorState)
+                                        {
+                                            transferQueryString = "0";
+                                        }
+                                        
                                         var counters = new Dictionary<string, int>();
                                         while ((line = stream.ReadLine()) != null)
                                         {
@@ -193,6 +200,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                 string subFolder = string.Empty;
                                                 var rowIsPermanentRedirect = isPermanentRedirect;
                                                 var rowIgnoreQueryString = ignoreQueryString;
+                                                var rowTransferQueryString = transferQueryString;
                                                 if (values.Length >= 4)
                                                 {
                                                     subFolder = values[3].Trim();
@@ -215,6 +223,16 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         && bool.TryParse(isIgnoreQueryStringValue, out var isIgnoreQueryString))
                                                     {
                                                         rowIgnoreQueryString = isIgnoreQueryString ? "1" : "0";
+                                                    }
+                                                }
+
+                                                if (values.Length >= 7)
+                                                {
+                                                    var isTransferQueryStringValue = values[6];
+                                                    if (!string.IsNullOrWhiteSpace(isTransferQueryStringValue)
+                                                        && bool.TryParse(isTransferQueryStringValue, out var isTransferQueryString))
+                                                    {
+                                                        rowTransferQueryString = isTransferQueryString ? "1" : "0";
                                                     }
                                                 }
 
@@ -276,6 +294,7 @@ namespace Unic.UrlMapper.Website.sitecore_modules.Shell.Unic.UrlMapper
                                                         redirectItem["Redirect URL"] = redirectUrl;
                                                         redirectItem["Permanent Redirect"] = rowIsPermanentRedirect;
                                                         redirectItem["Ignore Query String"] = rowIgnoreQueryString;
+                                                        redirectItem["Transfer Query String"] = rowTransferQueryString;
                                                         redirectItem.Editing.EndEdit();
                                                     }
 

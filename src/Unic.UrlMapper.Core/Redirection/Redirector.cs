@@ -94,12 +94,12 @@ namespace Unic.UrlMapper.Core.Redirection
                 return;
             }
 
+            var searchUrlWithoutQueryString = searchUrl.Split('?')[0];
+            var searchUrlWithoutQueryStringEncode = searchUrlEncode.Split('?')[0];
             try
             {
                 using (var context = ContentSearchManager.GetIndex(indexName).CreateSearchContext())
                 {
-                    var searchUrlWithoutQueryString = searchUrl.Split('?')[0];
-                    var searchUrlWithoutQueryStringEncode = searchUrlEncode.Split('?')[0];
                     var query = context.GetQueryable<RedirectResultItem>()
                         .Filter(resultItem => resultItem.Paths.Contains(redirectRootId))
                         .Filter(resultItem =>
@@ -136,6 +136,12 @@ namespace Unic.UrlMapper.Core.Redirection
                 var statusCode = redirectItem.IsPermanentRedirect
                     ? HttpStatusCode.MovedPermanently
                     : HttpStatusCode.Redirect;
+
+                if (redirectItem.IgnoreQueryString && redirectItem.TransferQueryString && searchUrl.Length > searchUrlWithoutQueryString.Length + 1)
+                {
+                    redirectUrl += redirectUrl.Contains("?") ? "&" : "?";
+                    redirectUrl += searchUrl.Substring(searchUrlWithoutQueryString.Length + 1);
+                }
 
                 httpContext.Response.StatusCode = (int) statusCode;
                 Log.Info(
